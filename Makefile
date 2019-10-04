@@ -22,6 +22,7 @@ PACKAGE_ENVIRONMENT_FILE := .environment
 # build config
 # -----------------------------------------------------------------------------
 
+BUILD_DIR := $(PACKAGE_HOME)/build
 BUILD_DIST_DIR := $(PACKAGE_HOME)/dist
 BUILD_TARGET := sdist
 BUILD_ARGS := 
@@ -240,8 +241,8 @@ build:: dist
 # -----------------------------------------------------------------------
 
 docs:: deps-docs
-	source activate && sphinx-apidoc -o docs/reference src/$(PACKAGE_NAME) --ext-todo
-	source activate && cd docs && sphinx-build -M html ./ ../build/docs/
+	source activate && sphinx-apidoc -o docs/apidoc $(PACAKGE_SOURCES)/$(PACKAGE_NAME)
+	source activate && sphinx-build -M html docs/ $(BUILD_DIR)/docs/
 
 
 # -----------------------------------------------------------------------------

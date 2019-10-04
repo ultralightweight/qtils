@@ -7,7 +7,7 @@ Full Qtils documentation
 .. toctree::
    :maxdepth: 2
 
-   reference/qtils
+   apidoc/qtils
 
 
 Indices and tables
