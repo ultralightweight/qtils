@@ -99,6 +99,8 @@ __all__.register(qlist)
 class qdict(dict):
     """
     Simple attribute dictionary with a couple shorthands.
+
+    Typical usage:
             
     >>> d = qdict( foo='hello', bar='world' )
     >>> d
@@ -127,7 +129,7 @@ class qdict(dict):
         self[key] = value
 
 
-    def copy( self, add = None ):
+    def copy(self, add=None):
         """Returns a shallow copy of self
         """
         res = qdict()
@@ -137,7 +139,7 @@ class qdict(dict):
         return res
 
         
-    def __add__( self, other ):
+    def __add__(self, other):
         """Supports the `+` operand for two dictionaries
 
         >>> d1 = qdict(a=1,b=2)
@@ -151,44 +153,47 @@ class qdict(dict):
         return res
 
 
-    def update( self, source, recursive = False, add_keys = True, convert = False ):
-        """Recursively updates ``self`` from ``source``.
+    def update(self, other, recursive=False, add_keys=True, convert=False):
+        """Extended version inherited :py:meth:`dict.update` with recursion, key restriction and conversion support.
     
-        :param source: Source to copy values from to ``self``
-        :type source: ``dict``
-        :param recursive: Recursively update ``dict()`` values, defaults to True
-        :type recursive: bool
-        :param add_keys: Add keys that are in `source` but not in `self`, default to True
-        :type add_keys: bool
-        :param convert: Convert encountered ``dict()``s to ``qdict()``s, defaults to False
-        :type convert: bool
-        :return: ``self``
+        Args:
+            other (:py:class:`dict`): other to copy values from to ``self``
+            recursive (bool): Recursively update ``dict()`` values, defaults to True
+            add_keys (bool): Add keys that are in `other` but not in `self`, default to True
+            convert (bool): Convert encountered ``dict()`` to ``qdict()``, defaults to False
+        Returns:
+            :class:`qdict`: returns self
 
-        Example usage:
+        Default behaviour is the same as the inherited :py:meth:`dict.update`:
 
         >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
-        >>> my_dict.update(dict(b=dict(c=5, e=100), f=200))  # calls ``dict.update`` without change
+        >>> my_dict.update(dict(b=dict(c=5, e=100), f=200))
         {'a': 1, 'b': {'c': 5, 'e': 100}, 'f': 200}
+
+        Recursively update ``self`` from ``other``. Please note: this *works only* if all dictionaries in ``self`` are 
+        :class:`qdict` instances. Use ``convert=True`` to enforce on-the-fly conversion of :py:class:`dict` to :class:`qdict`.
 
         >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
         >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True)
         {'a': 1, 'b': {'c': 5, 'd': 20, 'e': 100}, 'f': 200}
+
+        Recursively update **only** existing keys in ``self`` with values from ``other``:
 
         >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
         >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True, add_keys=False)
         {'a': 1, 'b': {'c': 5, 'd': 20}}
 
         """
-        if not isinstance(source, dict): return self
+        if not isinstance(other, dict): return self
         if not recursive:
             if add_keys:
-                super(qdict,self).update(source)
+                super(qdict,self).update(other)
                 return self
             for k in self:
-                self[k] = source.get(k,self[k])
+                self[k] = other.get(k,self[k])
             return self
         if add_keys:
-            for k, nv in source.items():
+            for k, nv in other.items():
                 if convert and isinstance(nv, dict) and (not isinstance(nv, qdict)):
                     nv_ = qdict()
                     nv_.update(nv, recursive=recursive, add_keys=add_keys, convert=convert)
@@ -215,7 +220,7 @@ class qdict(dict):
             return self
         for k, cv in self.items():
             try:
-                nv = source[k]
+                nv = other[k]
             except KeyError:
                 continue
             if convert and isinstance(nv, dict) and (not isinstance(nv, qdict)):
