@@ -178,11 +178,19 @@ deps-docs:: $(VIRTUALENV_HOME)/deps-docs
 
 
 # -----------------------------------------------------------------------
+# lint
+# -----------------------------------------------------------------------
+
+lint:: deps-test
+	source activate && pylint $(PACAKGE_SOURCES)/
+
+
+# -----------------------------------------------------------------------
 # target: test-modules
 # -----------------------------------------------------------------------
 
 .PHONY: test-modules
-test-modules:: deps-test
+test-modules:: deps-test lint
 	source activate && pytest $(PACAKGE_SOURCES)/
 
 
@@ -201,6 +209,7 @@ test-e2e:: deps-test
 
 .PHONY: test
 test:: deps-test
+	source activate && pylint $(PACAKGE_SOURCES)/
 	source activate && pytest $(PACAKGE_SOURCES)/ $(PACKAGE_TEST)/
 
 
