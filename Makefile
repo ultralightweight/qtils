@@ -240,8 +240,8 @@ build:: dist
 # -----------------------------------------------------------------------
 
 docs:: deps-docs
-	source activate && cd docs && make html
-
+	source activate && sphinx-apidoc -o docs/reference src/$(PACKAGE_NAME) --ext-todo
+	source activate && cd docs && sphinx-build -M html ./ ../build/docs/
 
 
 # -----------------------------------------------------------------------------
