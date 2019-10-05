@@ -250,7 +250,8 @@ build:: dist
 # -----------------------------------------------------------------------
 
 docs:: deps-docs
-	source activate && sphinx-apidoc -o docs/apidoc $(PACAKGE_SOURCES)/$(PACKAGE_NAME)
+	rm -rf docs/apidoc
+	source activate && sphinx-apidoc --separate --module-first --output-dir docs/apidoc $(PACAKGE_SOURCES)/$(PACKAGE_NAME)
 	source activate && sphinx-build -M html docs/ $(BUILD_DIR)/docs/
 
 
