@@ -49,12 +49,15 @@ class qlist(list):
     """
 
 
-    def get(self, index, default=None):
+    def get(self, index: int, default=None):
         """Return an ``index``-th element from the list
         or return ``default`` if not found.
 
-        :param index: Index of the element to return
-        :param default: Value to return if ``index`` not found.
+        Args:
+            index (int): Index of the element to return
+            default (object): Value to return if ``index`` is not found, defaults to None
+        Returns:
+            Return (object): ``self[index]`` or ``default``
 
         >>> l = qlist(['foo', 'bar'])
         >>> l.get(0)
@@ -67,11 +70,16 @@ class qlist(list):
         return self[index]
 
 
-    def register(self, item):
-        """Add ``item.__name__`` to the list and return
-        ``item``. This function is meant to be used for
-        dynamically composing the ``__all__`` list for a python
-        mudule.
+    def register(self, obj: object):
+        """Add ``obj.__name__`` to the list and return ``obj``. 
+
+        This function is meant to be used for dynamically composing the ``__all__`` 
+        list for a python module.
+
+        Args:
+            obj (object): Any object with ``__name__`` attribute, typically a :py:class:`function` or :py:class:`type`
+        Returns:
+            Return (object): returns ``obj``
 
         >>> __all__ = qlist()
         >>> @__all__.register
