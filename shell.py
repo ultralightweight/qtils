@@ -28,3 +28,18 @@ from qtils import *
 
 # setup your shell here
 # use print() to print help to users
+
+
+class SomeClass(object): 
+    def __del__(self):
+        print("SomeClass instance freed")
+
+class Foo(object):
+    @weakproperty
+    def bar(self, value): pass
+
+value = SomeClass()
+foo = Foo()
+foo.bar = value
+foo.bar
+del value
