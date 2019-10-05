@@ -39,6 +39,8 @@ This module contains enhanced versions of python builtin classes.
 # imports
 # -------------------------------------------------------------------------------
 
+from enum import Enum
+
 
 # -----------------------------------------------------------------------------
 # qlist
@@ -90,14 +92,8 @@ class qlist(list):
         ['foo', 'Bar']
 
         """
-        self.append(item.__name__)
-        return item
-
-
-    def __str__(self):
-        """TODO: Document or remove me
-        """
-        return '[' + ', '.join([str(i) for i in self]) + ']'
+        self.append(obj.__name__)
+        return obj
 
 
 # -----------------------------------------------------------------------------
@@ -349,6 +345,101 @@ class qdict(dict):
         for key in self:
             self[key] = other.get(key, self[key])
         return self
+
+
+# -----------------------------------------------------------------------------
+# ObjectDict
+# -----------------------------------------------------------------------------
+
+@__all__.register
+class ObjectDict(qdict):
+    """Dictionary with decorators to append objects with ``__name__`` 
+    attribute which are typically classes or functions. 
+
+    This class is intended to be used for meta programming tasks, like implementing
+    the request handler function registration in a web server framework.
+    
+    Registering a function with :meth:`ObjectDict.register` decorator:
+
+    >>> my_dir = ObjectDict()
+    >>> @my_dir.register
+    ... def foo(self): pass
+    >>> my_dir['foo']
+    <function foo at ...>
+
+    Registering a class with :meth:`ObjectDict.register` decorator:
+
+    >>> @my_dir.register
+    ... class Bar(object): pass
+    >>> my_dir['Bar']
+    <class 'qtils.collections.Bar'>
+    
+    """
+
+    def register(self, obj):
+        """Decorator to append an object with ``__name__`` to
+        the dictionary.
+
+        Args:
+            obj (object): Any object with ``__name__`` attribute, typically a :py:class:`function` or :py:class:`type`
+        Returns:
+            Return (object): returns ``obj``
+
+        """
+        self[obj.__name__] = obj
+        return obj
+
+    def register_module(self, module):
+        """Append all classes from a python module to the dictionary
+
+        Args:
+            module (:py:class:`module`): A python module object
+
+        >>> my_dir = ObjectDict()
+        >>> import datetime
+        >>> my_dir.register_module(datetime)
+        >>> my_dir['datetime']
+        <class 'datetime.datetime'>
+
+        """
+        for name in dir(module):
+            value = getattr(module, name)
+            if isinstance(value, type):
+                self.register(value)
+
+
+# ---------------------------------------------------------------------------------------------------------
+# SmartEnum
+# ---------------------------------------------------------------------------------------------------------
+
+@__all__.register
+class QEnum(Enum):
+    """Enumeration with introspection capability
+
+    >>> class MyEnum(QEnum):
+    ...     KEY_A = "hello"
+    ...     KEY_B = "world"
+    ...
+    >>> MyEnum.keys()
+    ['KEY_A', 'KEY_B']
+    >>> MyEnum.values()
+    ['hello', 'world']
+    """
+
+    @classmethod
+    def keys(cls):
+        """Returns available keys as a list of strings
+        """
+        return [str(i.name) for i in cls]
+
+    @classmethod
+    def values(cls):
+        """Returns available values as a list of strings
+        """
+        return [str(i.value) for i in cls]
+
+
+
 
 
 
