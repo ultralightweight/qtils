@@ -56,6 +56,7 @@ Attributes:
 
 import re
 import math
+from enum import Enum
 
 from .collections import qlist, qdict
 
@@ -343,159 +344,222 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 
 
 # -----------------------------------------------------------------------------
-# _FORMAT_FILESIZE_PRECISIONS
+# DataSize Systems
 # -----------------------------------------------------------------------------
 
-_FORMAT_FILESIZE_PRECISIONS = (
-    ('bytes', 0),
-    ('k', 0),
-    ('M', 1),
-    ('G', 2),
-    ('T', 2),
-    ('P', 2),
-    ('E', 2),
-    ('Y', 2),
-    ('Z', 2),
-)
+@__all__.register   # pylint: disable=invalid-name
+class DATA_UNIT_SYSTEM(Enum): 
+    """Data Unit Systems
+    
+    Attributes:
+        BINARY: Use powers of 2 for magnitudes
+        METRIC: Use powers of 10 for magnitudes
 
-# -----------------------------------------------------------------------------
-# format_filesize()
-# -----------------------------------------------------------------------------
-
-@__all__.register
-def format_filesize(size: int, precision: int = None):
-    """Returns a :py:class:`float` value formatted as file size in string
     """
-    prec = 0
-    unit = _FORMAT_FILESIZE_PRECISIONS[0]
-    for unit, prec in _FORMAT_FILESIZE_PRECISIONS:
-        if size < 1024.0:
-            break
-        size /= 1024.0
-    return "{:3.{prec}f} {}".format(size, unit, prec=precision if precision is not None else prec)
 
+    BINARY = 0
+    METRIC = 1
 
 
 # -----------------------------------------------------------------------------
-# _FORMAT_FILESIZE_PRECISIONS
+# DataSize Constants
 # -----------------------------------------------------------------------------
 
-_FILESIZE_SUFFIXES_AND_PRECISIONS = (
-    (('b', "B", "bytes"), 0),
-    (('k', "kB", "kilobytes"), 0),
-    (('M', "MB", "megabytes"), 1),
-    (('G', "GB", "gigabytes"), 2),
-    (('T', "TB", "terabytes"), 2),
-    (('P', "PB", "petabytes"), 2),
-    (('E', "EB", "exabytes"), 2),
-    (('Z', "YB", "zettabytes"), 2),
-    (('Y', "ZB", "yottabytes"), 2),
+_DATASIZE_SUFFIXES_AND_PRECISIONS = (
+    (
+        (('b', "B", "byte"), 0),
+        (('k', "KiB", "kibibyte"), 0),
+        (('M', "MiB", "mebibyte"), 1),
+        (('G', "GiB", "gibibyte"), 2),
+        (('T', "TiB", "tebibyte"), 2),
+        (('P', "PiB", "pebibyte"), 2),
+        (('E', "EiB", "exbiytes"), 2),
+        (('Z', "YiB", "zebibyte"), 2),
+        (('Y', "ZiB", "yobibyte"), 2),
+    ),
+    (
+        (('b', "B", "byte"), 0),
+        (('k', "kB", "kilobyte"), 0),
+        (('M', "MB", "megabyte"), 1),
+        (('G', "GB", "gigabyte"), 2),
+        (('T', "TB", "terabyte"), 2),
+        (('P', "PB", "petabyte"), 2),
+        (('E', "EB", "exabyte"), 2),
+        (('Z', "YB", "zettabyte"), 2),
+        (('Y', "ZB", "yottabyte"), 2),
+    )
 )
 
-_FILESIZE_PARSER = re.compile(r'^([\d.,]+)\s*([bkmgtpeyzBKMGTPEYZ]?)')
-_FILESIZE_SUFFIX_TO_MAGNITUDE = dict(map(
-    lambda e: (e[1][0][0].lower()[:1], e[0]), 
-    enumerate(_FILESIZE_SUFFIXES_AND_PRECISIONS)
+_DATASIZE_PARSER = re.compile(r'^([\d.,]+)\s*([bkmgtpeyz]?)')
+
+# We create the reverse map of _DATASIZE_SUFFIXES_AND_PRECISIONS in an automatic fashion.
+
+_DATASIZE_SUFFIX_TO_MAGNITUDE = tuple(map(
+    lambda system: dict(map(
+        lambda e: (e[1][0][0].lower()[:1], e[0]), 
+        enumerate(system)
+    )),
+    _DATASIZE_SUFFIXES_AND_PRECISIONS
 ))
 
+_DATASIZE_MAGNITUDE_MULTIPLIER = (
+    1024,
+    1000,
+)
+
+
 # -----------------------------------------------------------------------------
-# FileSize
+# DataSize
 # -----------------------------------------------------------------------------
 
 @__all__.register
-class FileSize(int):
-    """Class representing file size with two-way conversion ability. It stores the
-    value in bytes as int. It can display the value in different units. By default
-    it chooses the most suitable unit automatically. This behaviour can be changed 
-    by calling the :meth:`FileSize.format` directly.
+class DataSize(int):
+    """Integer object representing data size with two-way conversion ability. 
+
+    It stores the data size in bytes as int. It can display the value in different 
+    units. By default it uses the most suitable unit automatically. This behaviour 
+    can be changed by calling the :meth:`DataSize.format` directly, or by changing
+    the default unit in the ``DEFAULT_UNIT`` class attribute.
+
+    This class supports different systems of units. It supports the ``BINARY``
+    system, in which a magnitude is ``2**10=1024``, and the ``METRIC`` systems, in which 
+    a magnitude is ``10**3=1000``. By default it uses the ``METRIC`` system. Read more
+    about information unit systems in this 
+    `Wikipedia article <https://en.wikipedia.org/wiki/Units_of_information>`_
+
 
     Examples:
         
-        Pretty printing file size values with automatic unit and
+        Pretty printing data size values with automatic unit and
         precision detection:
         
-        >>> print(FileSize(123000))
-        120 k
-        >>> print(FileSize(123456000))
-        117.7 M
-        >>> print(FileSize(123456000*20))
+        >>> print(DataSize(123000))
+        123 k
+        >>> print(DataSize(123456000))
+        123.5 M
+        >>> print(DataSize(23*10**8))
         2.30 G
-        >>> print(FileSize(1024**8))
+        >>> print(DataSize(1000**8))
         1.00 Y
 
-        Parsing file sizes from strings:
 
-        >>> FileSize('1.45 megabytes')
+        Parsing data sizes from strings using the ``METRIC`` unit system (default
+        behaviour):
+
+        >>> DataSize('1.45 megabytes')
+        1450000
+        >>> DataSize('23.3G')
+        23300000000
+        >>> DataSize('1 T')
+        1000000000000
+        >>> DataSize('1,123,456.789 MB')
+        1123456789000
+
+
+        Parsing data sizes using the ``BINARY`` unit system:
+
+        >>> DataSize('1.45 mebibytes')
         1520435
-        >>> FileSize('23.3G')
+        >>> DataSize('23.3gib')
         25018184499
-        >>> FileSize('1 T')
+        >>> DataSize('1 T', system=DATA_UNIT_SYSTEM.BINARY)
         1099511627776
-        >>> FileSize('1,123,456.789 MB')
+        >>> DataSize('1,123,456.789 MB', system=0)
         1178029825982
 
-        :class:`FileSize` works as a regular ``int``:
 
-        >>> size = FileSize('1 M') + FileSize('500k')
+        Comparison of the ``BINARY`` and the ``METRIC`` unit systems:
+
+        >>> binary_1k = DataSize("1 KiB")
+        >>> metric_1k = DataSize("1 kB")
+        >>> binary_1k
+        1024
+        >>> metric_1k
+        1000
+        >>> binary_1k.format(system=DATA_UNIT_SYSTEM.BINARY)
+        '1 k'
+        >>> metric_1k.format(system=DATA_UNIT_SYSTEM.BINARY)
+        '1000 b'
+
+
+        :class:`DataSize` works as a regular ``int``:
+
+        >>> size = DataSize('1 M') + DataSize('500k')
         >>> size
-        1560576
+        1500000
         >>> print(size)
         1.5 M
         >>> size * 2.5
-        3901440
+        3750000
         >>> print(size * 2.5)
-        3.7 M
+        3.8 M
         >>> size / 3
-        520192
+        500000
         >>> print(size / 3)
-        508 k
+        500 k
 
         
     Formatting can be controlled and customized using the
-    :meth:`FileSize.format` method, or by changing the defaults set
+    :meth:`DataSize.format` method, or by changing the defaults set
     by class attributes.
 
     
     Attributes:
-        DEFAULT_UNIT (str): Sets the default unit to use (see more in :meth:`FileSize.format` 
-            documentation.), defaults to ``None``, which means automatic unit choice.
-        DEFAULT_UNIT_FORMAT (int): Sets the default unit format (see more in :meth:`FileSize.format` 
-            documentation.), defaults to ``0``.
-        DEFAULT_NUMBER_FORMAT (str): Sets the default format string, defaults to ``{:3.{precision}f} {:}``
+
+        DEFAULT_UNIT_SYSTEM (:class:`DATA_UNIT_SYSTEM`): Binary or Metric system to use, defaults 
+            to ``DATA_UNIT_SYSTEM.METRIC``
+
+        DEFAULT_UNIT (str): Sets the default unit to use (see more in :meth:`DataSize.format` 
+            documentation.). ``None`` means automatic unit choice.
+
+        DEFAULT_UNIT_FORMAT (int): Sets the default unit format (see more in :meth:`DataSize.format` 
+            documentation.)
+
+        DEFAULT_NUMBER_FORMAT (str): Sets the default format string
 
     """
+
+    DEFAULT_UNIT_SYSTEM = DATA_UNIT_SYSTEM.METRIC
 
     DEFAULT_UNIT = None                                 # automatic unit choice
 
     DEFAULT_UNIT_FORMAT = 0                             # single letter
 
-    DEFAULT_NUMBER_FORMAT = "{:3.{precision}f} {:}"
+    DEFAULT_NUMBER_FORMAT = "{:.{precision}f} {:}"
 
-    def __new__(cls, value):
+    def __new__(cls, value, system=None):
         if isinstance(value, str):
-            match = _FILESIZE_PARSER.match(value)
+            value = value.lower()
+            if system is None:
+                system = DATA_UNIT_SYSTEM.METRIC
+                if 'bibyte' in value or 'ib' in value:
+                    system = DATA_UNIT_SYSTEM.BINARY
+            elif not isinstance(system, DATA_UNIT_SYSTEM):
+                system = DATA_UNIT_SYSTEM(system)
+            match = _DATASIZE_PARSER.match(value)
             if not match:
-                raise ValueError("Invalid file size literal: '{}'".format(value))
+                raise ValueError("Invalid data size literal: '{}'".format(value))
             groups = match.groups()
             size = groups[0].replace(',', '')
             try:
                 size = float(size)
             except ValueError:
-                raise ValueError("Invalid file size literal: '{}'".format(value))
-            suffix = groups[1].lower()
+                raise ValueError("Invalid data size literal: '{}'".format(value))
+            suffix = groups[1]
             if suffix == "":
                 suffix = "b"
-            magnitude = _FILESIZE_SUFFIX_TO_MAGNITUDE[suffix]
-            value = size * 1024 ** magnitude
+            magnitude = _DATASIZE_SUFFIX_TO_MAGNITUDE[system.value][suffix]
+            value = size * _DATASIZE_MAGNITUDE_MULTIPLIER[system.value] ** magnitude
         elif isinstance(value, (float, int)):
             pass
         else:
-            raise ValueError("Invalid file size literal: '{}'".format(value))
+            raise ValueError("Invalid data size literal: '{}'".format(value))
         return super().__new__(cls, value)
 
 
-    def format(self, unit: str = None, precision: int = None, unit_format=None, number_format=None):
-        """Returns a formatted file size in str
+    def format(self, unit: str = None, precision: int = None, unit_format: object = None, # pylint: disable=too-many-arguments
+               number_format: str = None, system: DATA_UNIT_SYSTEM = None): 
+        """Returns a formatted data size in str
         
         Arguments:
             
@@ -523,15 +587,15 @@ class FileSize(int):
 
             unit_format (int): Sets how verbose the displayed unit should be. Defaults to ``None``.
 
-                - ``None``: Use value from ``FileSize.DEFAULT_UNIT_FORMAT`` (default behaviour)
+                - ``None``: Use value from ``DataSize.DEFAULT_UNIT_FORMAT`` (default behaviour)
                 - ``0``: Single letter units, for example: ``b``, ``k``, ``M``, etc.
-                - ``1``: Two letter units, for example: ``B``, ``kB``, ``MB``, etc.
+                - ``1``: Short units, for example: ``B``, ``kB``, ``MB``, etc.
                 - ``2``: Verbose units, for example: ``bytes``, ``kilobytes``, ``megabytes``, etc.
 
 
-            number_format(str): Python format string to be used to format file size. Defaults to ``None``
+            number_format(str): Python format string to be used to format data size. Defaults to ``None``
 
-                ``None``: Use value from ``FileSize.DEFAULT_NUMBER_FORMAT`` (default behaviour)
+                ``None``: Use value from ``DataSize.DEFAULT_NUMBER_FORMAT`` (default behaviour)
 
                 Accepts any valid python format string. 
 
@@ -539,83 +603,121 @@ class FileSize(int):
                 - Unit as string is supplied as the second positional argument. 
                 - Precision is supplied as ``precision`` keyword argument.
 
-                Default format in ``FileSize.DEFAULT_NUMBER_FORMAT`` is: ``{:3.{precision}f} {:}``
+                Default format in ``DataSize.DEFAULT_NUMBER_FORMAT`` is: ``{:.{precision}f} {:}``
+
+            system (:class:`DATA_UNIT_SYSTEM`): Unit system to use for formatting. Accepts integers or
+                values from the :class:`DATA_UNIT_SYSTEM` Enum. If ``None`` it will use the default value 
+                from ``DataSize.DEFAULT_UNIT_SYSTEM``.
+
     
         Examples:
 
-            Displaying the same :class:`FileSize` with different formatting
+            Displaying the same :class:`DataSize` with different formatting
 
-            >>> size = FileSize('1.7654321 G')
+            >>> size = DataSize('1.7654321 G')
             >>> size.format()
             '1.77 G'
             >>> size.format(precision=4)
             '1.7654 G'
             >>> size.format(unit='m')
-            '1807.8 M'
+            '1765.4 M'
             >>> size.format(unit='m', precision=2)
-            '1807.80 M'
+            '1765.43 M'
             >>> size.format(unit_format=1)
             '1.77 GB'
             >>> size.format(unit_format=2)
             '1.77 gigabytes'
             >>> size.format(unit='m', precision=0, unit_format=2)
-            '1808 megabytes'
+            '1765 megabytes'
             >>> size.format(unit="k", number_format="{:>20,.3f} {}")
-            '       1,851,189.729 k'
+            '       1,765,432.100 k'
             >>> size.format(unit="k", number_format="{:>20,.3f} {}", unit_format=2)
-            '       1,851,189.729 kilobytes'
+            '       1,765,432.100 kilobytes'
+
+            Displaying the same data size using the BINARY unit system:
+
+            >>> size = DataSize('1.7654321 G', system=0)
+            >>> size.format(system=0)
+            '1.77 G'
+            >>> size.format(precision=4, system=0)
+            '1.7654 G'
+            >>> size.format(unit='m', system=0)
+            '1807.8 M'
+            >>> size.format(unit='m', precision=2, system=0)
+            '1807.80 M'
+            >>> size.format(unit_format=1, system=0)
+            '1.77 GiB'
+            >>> size.format(unit_format=2, system=0)
+            '1.77 gibibytes'
+            >>> size.format(unit='m', precision=0, unit_format=2, system=0)
+            '1808 mebibytes'
+            >>> size.format(unit="k", number_format="{:>20,.3f} {}", system=0)
+            '       1,851,189.729 k'
+            >>> size.format(unit="k", number_format="{:>20,.3f} {}", unit_format=2, system=0)
+            '       1,851,189.729 kibibytes'
             
 
-            Changing the default display settings
+            Changing the default formatting settings
             
             >>> sizes = [
-            ...     FileSize('208 k'),
-            ...     FileSize('1.5 M'),
-            ...     FileSize('542 M'),
-            ...     FileSize('1.6 G'),
+            ...     DataSize('208 k'),
+            ...     DataSize('1.5 M'),
+            ...     DataSize('542 M'),
+            ...     DataSize('1.6 G'),
             ... ]
             >>> for size in sizes: print(size)
             208 k
             1.5 M
             542.0 M
             1.60 G
-            >>> FileSize.DEFAULT_UNIT_FORMAT = 2
+            >>> DataSize.DEFAULT_UNIT_FORMAT = 2
             >>> for size in sizes: print(size)
             208 kilobytes
             1.5 megabytes
             542.0 megabytes
             1.60 gigabytes
-            >>> FileSize.DEFAULT_UNIT_FORMAT = 0
-            >>> FileSize.DEFAULT_UNIT = "m"
+            >>> DataSize.DEFAULT_UNIT_FORMAT = 1
+            >>> DataSize.DEFAULT_UNIT = "m"
             >>> for size in sizes: print(size)
-            0.2 M
-            1.5 M
-            542.0 M
-            1638.4 M
-            >>> FileSize.DEFAULT_NUMBER_FORMAT = "{:>20,.3f} {}"
+            0.2 MB
+            1.5 MB
+            542.0 MB
+            1600.0 MB
+            >>> DataSize.DEFAULT_NUMBER_FORMAT = "{:>10,.3f} {}"
             >>> for size in sizes: print(size)
-                           0.203 M
-                           1.500 M
-                         542.000 M
-                       1,638.400 M
-
+                 0.208 MB
+                 1.500 MB
+               542.000 MB
+             1,600.000 MB
+            >>> DataSize.DEFAULT_UNIT_SYSTEM = DATA_UNIT_SYSTEM.BINARY
+            >>> for size in sizes: print(size)
+                 0.198 MiB
+                 1.431 MiB
+               516.891 MiB
+             1,525.879 MiB
+            
 
         """
+        system = self.DEFAULT_UNIT_SYSTEM if system is None else system
+        if not isinstance(system, DATA_UNIT_SYSTEM):
+            system = DATA_UNIT_SYSTEM(system)
         unit = unit or self.DEFAULT_UNIT
         unit_format = unit_format or self.DEFAULT_UNIT_FORMAT
         number_format = number_format or self.DEFAULT_NUMBER_FORMAT
         if unit is None:
-            magnitude = int(math.log(int(self), 1024))
+            magnitude = int(math.log(int(self), _DATASIZE_MAGNITUDE_MULTIPLIER[system.value]))
         elif isinstance(unit, int):
             magnitude = unit
         else:
-            magnitude = _FILESIZE_SUFFIX_TO_MAGNITUDE.get(unit[:1].lower(), None)
+            magnitude = _DATASIZE_SUFFIX_TO_MAGNITUDE[system.value].get(unit[:1].lower(), None)
             if not magnitude:
-                raise AttributeError("Unknown FileSize unit: '{}'".format(unit))
+                raise AttributeError("Unknown DataSize unit: '{}'".format(unit))
         if precision is None:
-            precision = _FILESIZE_SUFFIXES_AND_PRECISIONS[magnitude][1]
-        unit = _FILESIZE_SUFFIXES_AND_PRECISIONS[magnitude][0][unit_format]
-        size = int(self) / 1024 ** (magnitude)
+            precision = _DATASIZE_SUFFIXES_AND_PRECISIONS[system.value][magnitude][1]
+        unit = _DATASIZE_SUFFIXES_AND_PRECISIONS[system.value][magnitude][0][unit_format]
+        size = int(self) / _DATASIZE_MAGNITUDE_MULTIPLIER[system.value] ** (magnitude)
+        if size != 1.0 and len(unit) > 3:
+            unit += 's'
         return number_format.format(size, unit, precision=precision)
 
 
@@ -624,28 +726,30 @@ class FileSize(int):
 
 
     def __add__(self, other):
-        return FileSize(super().__add__(other))
+        return DataSize(super().__add__(other))
 
     def __sub__(self, other):
-        return FileSize(super().__sub__(other))
+        return DataSize(super().__sub__(other))
 
     def __mul__(self, other):
-        return FileSize(int(self)*other)
+        return DataSize(int(self)*other)
 
     def __truediv__(self, other):
-        return FileSize(super().__truediv__(other))
+        return DataSize(super().__truediv__(other))
 
     def __floordiv__(self, other):
-        return FileSize(super().__floordiv__(other))
+        return DataSize(super().__floordiv__(other))
 
     def __mod__(self, other):
-        return FileSize(super().__mod__(other))
+        return DataSize(super().__mod__(other))
 
     def __divmod__(self, other):
-        return FileSize(super().__divmod__(other))
+        return DataSize(super().__divmod__(other))
 
     def __pow__(self, other, modulo):
-        return FileSize(super().__pow__(other, modulo))
+        return DataSize(super().__pow__(other, modulo))
+
+
 
 
 
