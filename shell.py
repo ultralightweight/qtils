@@ -29,17 +29,24 @@ from qtils import *
 # setup your shell here
 # use print() to print help to users
 
+# class Foo(PrettyObject):
+#     __pretty_fields__ = ['a', 'b']
+#     def __init__(self, a, b, c):
+#         self.a = a
+#         self.b = b
+#         self.c = c
+# foo = Foo('hello world', 42.123456, [1,2,3])
+# print(foo)
 
-class SomeClass(object): 
-    def __del__(self):
-        print("SomeClass instance freed")
 
-class Foo(object):
-    @weakproperty
-    def bar(self, value): pass
-
-value = SomeClass()
-foo = Foo()
-foo.bar = value
-foo.bar
-del value
+class MyObject(PrettyObject):
+    __pretty_format__ = PRETTY_FORMAT.BRIEF
+    __pretty_fields__ = [
+        'hello',
+        'answer',
+    ]
+    def __init__(self, hello, answer):
+        self.hello = hello
+        self.answer = answer
+obj = MyObject('world', 42)
+obj
