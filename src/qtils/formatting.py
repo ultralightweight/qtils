@@ -786,6 +786,11 @@ class DataRate(DataSize):  # pylint: disable=too-few-public-methods
         return str(self)
 
 
+# -----------------------------------------------------------------------------
+# MeasuredDataRate
+# -----------------------------------------------------------------------------
+
+@__all__.register
 class MeasuredDataRate(): # pylint: disable=useless-object-inheritance,super-init-not-called
     """The class supports data bandwidth calculation by subsequentual calls to 
     :meth:`MeasuredDataRate.digest`. This is useful for measuring continuously the data rate
