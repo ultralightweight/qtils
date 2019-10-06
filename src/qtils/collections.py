@@ -61,11 +61,14 @@ class qlist(list):
         Returns:
             Return (object): ``self[index]`` or ``default``
 
-        >>> l = qlist(['foo', 'bar'])
-        >>> l.get(0)
-        'foo'
-        >>> l.get(3, "not found")
-        'not found'
+        Example:
+
+            >>> l = qlist(['foo', 'bar'])
+            >>> l.get(0)
+            'foo'
+            >>> l.get(3, "not found")
+            'not found'
+            
         """
         if (index < 0) or (index >= len(self)):
             return default
@@ -83,13 +86,15 @@ class qlist(list):
         Returns:
             Return (object): returns ``obj``
 
-        >>> __all__ = qlist()
-        >>> @__all__.register
-        ... def foo(): pass
-        >>> @__all__.register
-        ... class Bar(object): pass
-        >>> __all__
-        ['foo', 'Bar']
+        Example:
+
+            >>> __all__ = qlist()
+            >>> @__all__.register
+            ... def foo(): pass
+            >>> @__all__.register
+            ... class Bar(object): pass
+            >>> __all__
+            ['foo', 'Bar']
 
         """
         self.append(obj.__name__)
@@ -134,7 +139,7 @@ class qdict(dict):
         Args:
             source (:py:class:`dict`): Source dictionary
         Returns:
-            Return (:class:`qdict`): Copy of source
+            (:class:`qdict`): Copy of source
 
         Example:
 
@@ -185,11 +190,13 @@ class qdict(dict):
 
     def __add__(self, other):
         """Supports the `+` operand for two dictionaries
+        
+        Example:
 
-        >>> dict1 = qdict(a=1,b=2)
-        >>> dict2 = qdict(c=3,b=4)
-        >>> dict1 + dict2
-        {'a': 1, 'b': 4, 'c': 3}
+            >>> dict1 = qdict(a=1,b=2)
+            >>> dict2 = qdict(c=3,b=4)
+            >>> dict1 + dict2
+            {'a': 1, 'b': 4, 'c': 3}
 
         """
         res = self.copy()
@@ -314,23 +321,25 @@ class qdict(dict):
         Returns:
             :class:`qdict`: returns self
 
-        Default behaviour is the same as inherited :py:meth:`dict.update`:
+        Examples:
 
-        >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
-        >>> my_dict.update(dict(b=dict(e=100, f=200), g=300))
-        {'a': 1, 'b': {'e': 100, 'f': 200}, 'g': 300}
+            Default behaviour is the same as inherited :py:meth:`dict.update`:
 
-        Recursively update ``self`` from ``other``.
+            >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
+            >>> my_dict.update(dict(b=dict(e=100, f=200), g=300))
+            {'a': 1, 'b': {'e': 100, 'f': 200}, 'g': 300}
 
-        >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
-        >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True)
-        {'a': 1, 'b': {'c': 5, 'd': 20, 'e': 100}, 'f': 200}
+            Recursively update ``self`` from ``other``.
 
-        Recursively update **existing keys** in ``self`` with values from ``other``:
+            >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
+            >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True)
+            {'a': 1, 'b': {'c': 5, 'd': 20, 'e': 100}, 'f': 200}
 
-        >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
-        >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True, add_keys=False)
-        {'a': 1, 'b': {'c': 5, 'd': 20}}
+            Recursively update **existing keys** in ``self`` with values from ``other``:
+
+            >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
+            >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True, add_keys=False)
+            {'a': 1, 'b': {'c': 5, 'd': 20}}
 
         """
         if not isinstance(other, dict):
@@ -359,20 +368,23 @@ class ObjectDict(qdict):
     This class is intended to be used for meta programming tasks, like implementing
     the request handler function registration in a web server framework.
     
-    Registering a function with :meth:`ObjectDict.register` decorator:
+    
+    Examples:
 
-    >>> my_dir = ObjectDict()
-    >>> @my_dir.register
-    ... def foo(self): pass
-    >>> my_dir['foo']
-    <function foo at ...>
+        Registering a function with :meth:`ObjectDict.register` decorator:
 
-    Registering a class with :meth:`ObjectDict.register` decorator:
+        >>> my_dir = ObjectDict()
+        >>> @my_dir.register
+        ... def foo(self): pass
+        >>> my_dir['foo']
+        <function foo at ...>
 
-    >>> @my_dir.register
-    ... class Bar(object): pass
-    >>> my_dir['Bar']
-    <class 'qtils.collections.Bar'>
+        Registering a class with :meth:`ObjectDict.register` decorator:
+
+        >>> @my_dir.register
+        ... class Bar(object): pass
+        >>> my_dir['Bar']
+        <class 'qtils.collections.Bar'>
     
     """
 
@@ -395,11 +407,13 @@ class ObjectDict(qdict):
         Args:
             module (:py:class:`module`): A python module object
 
-        >>> my_dir = ObjectDict()
-        >>> import datetime
-        >>> my_dir.register_module(datetime)
-        >>> my_dir['datetime']
-        <class 'datetime.datetime'>
+        Example:
+
+            >>> my_dir = ObjectDict()
+            >>> import datetime
+            >>> my_dir.register_module(datetime)
+            >>> my_dir['datetime']
+            <class 'datetime.datetime'>
 
         """
         for name in dir(module):
@@ -416,14 +430,18 @@ class ObjectDict(qdict):
 class QEnum(Enum):
     """Enumeration with introspection capability
 
-    >>> class MyEnum(QEnum):
-    ...     KEY_A = "hello"
-    ...     KEY_B = "world"
-    ...
-    >>> MyEnum.keys()
-    ['KEY_A', 'KEY_B']
-    >>> MyEnum.values()
-    ['hello', 'world']
+    Example:
+
+        >>> class MyEnum(QEnum):
+        ...     KEY_A = "hello"
+        ...     KEY_B = "world"
+        ...
+        >>> MyEnum.keys()
+        ['KEY_A', 'KEY_B']
+        >>> MyEnum.values()
+        ['hello', 'world']
+
+
     """
 
     @classmethod

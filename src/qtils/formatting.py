@@ -76,10 +76,22 @@ class _NAMeta(type):
 
 
 class NA(metaclass=_NAMeta):
-    """This class represents the 'Not Available' value. 
+    """This class represents the **ValueNotAvailable** state.
 
-    Can be usefull when a need to return that there is no value for the function,
-    but None is also considered as a meaningfull value.
+    This constant is meant to be used when :py:class:`None` has a meaningful value, 
+    and it can not be used to represent the state of a value being absent.
+
+    Example:
+
+        >>> data_from_an_api = {'field1': 'foo', 'field2': None}
+        >>> def is_field_present(field_name):
+        ...     return data_from_an_api.get(field_name, NA) is not NA
+        >>> is_field_present('field1')
+        True
+        >>> is_field_present('field2')
+        True
+        >>> is_field_present('field3')
+        False
 
     """
 
@@ -213,25 +225,52 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         ...     __pretty_fields__ = [
         ...         "name!s:<20",
         ...         "symbol!s:<5",
-        ...         "description!s:<50",
         ...         "value:>10.6f",
         ...     ]
-        ...     def __init__(self, name, symbol, description, value):
+        ...     def __init__(self, name, symbol, value):
         ...         self.name = name
         ...         self.symbol = symbol
-        ...         self.description = description
         ...         self.value = value
         ...
         >>> math_constants = [
-        ...     MathConstant("Archimedes constant", "π", "Circumference to diameter ratio of a circle", 3.1415926535),
-        ...     MathConstant("Euler's number", "e", "Exponential growth constant", 2.7182818284),
-        ...     MathConstant("Pythagoras constant", "√2", "The square root of 2", 1.414213562373095),
+        ...     MathConstant("Archimedes constant", "π", 3.1415926535),
+        ...     MathConstant("Euler's number", "e", 2.7182818284),
+        ...     MathConstant("Pythagoras constant", "√2", 1.414213562373095),
         ... ]
         >>> for mc in math_constants:
         ...     print(mc)
-        <MathConstant name=Archimedes constant   symbol=π      description=Circumference to diameter ratio of a circle         value=  3.141593>
-        <MathConstant name=Euler's number        symbol=e      description=Exponential growth constant                         value=  2.718282>
-        <MathConstant name=Pythagoras constant   symbol=√2     description=The square root of 2                                value=  1.414214>
+        <MathConstant name=Archimedes constant   symbol=π      value=  3.141593>
+        <MathConstant name=Euler's number        symbol=e      value=  2.718282>
+        <MathConstant name=Pythagoras constant   symbol=√2     value=  1.414214>
+
+
+        Returning :class:`NA` for non-existent fields:
+        
+        >>> class MyObject(PrettyObject):
+        ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
+        ...     __pretty_fields__ = [
+        ...         "non_existent",
+        ...     ]
+        ...
+        >>> obj = MyObject()
+        >>> print(obj)
+        <MyObject object at ... non_existent=NA>
+
+        Exceptions encountered during formatting are printed as the value for the field.
+        Please note that this can lead to problems with fields expecting a ``float`` or ``int`` value. However,
+        exceptions during attribute reading should not happen in the first place.
+        
+        >>> class MyObject(PrettyObject):
+        ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
+        ...     __pretty_fields__ = [
+        ...         "foo",
+        ...     ]
+        ...     @property
+        ...     def foo(self):
+        ...         return non_existent # this will raise an exception
+        >>> obj = MyObject()
+        >>> print(obj)
+        <MyObject object at ... foo=NameError("name 'non_existent' is not defined")>
 
 
     """
