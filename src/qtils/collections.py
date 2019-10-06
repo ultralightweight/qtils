@@ -113,16 +113,16 @@ class qdict(dict):
     """
     Simple attribute dictionary with recursive update and other convenience functions.
 
-    Typical usage:
+    Example:
 
-    >>> d = qdict( foo='hello', bar='world' )
-    >>> d
-    {'foo': 'hello', 'bar': 'world'}
-    >>> d.foo
-    'hello'
-    >>> d.answer = 42
-    >>> d
-    {'foo': 'hello', 'bar': 'world', 'answer': 42}
+        >>> d = qdict( foo='hello', bar='world' )
+        >>> d
+        {'foo': 'hello', 'bar': 'world'}
+        >>> d.foo
+        'hello'
+        >>> d.answer = 42
+        >>> d
+        {'foo': 'hello', 'bar': 'world', 'answer': 42}
 
     """
 
@@ -136,14 +136,14 @@ class qdict(dict):
         Returns:
             Return (:class:`qdict`): Copy of source
 
-        Example usage:
+        Example:
 
-        >>> d = dict(a=1,b=dict(c=2,d=dict()))
-        >>> q = qdict.convert(d)
-        >>> isinstance(q.b,qdict)
-        True
-        >>> isinstance(q.b.d,qdict)
-        True
+            >>> d = dict(a=1,b=dict(c=2,d=dict()))
+            >>> q = qdict.convert(d)
+            >>> isinstance(q.b,qdict)
+            True
+            >>> isinstance(q.b.d,qdict)
+            True
 
 
         """

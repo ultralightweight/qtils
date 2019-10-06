@@ -120,7 +120,7 @@ __all__.append("PRETTY_FORMAT")
 # -----------------------------------------------------------------------------    
 
 @__all__.register
-class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long
+class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,broad-except
     """Object with pretty self printing ability
 
     Self-formatting is implemented by overriding the :py:meth:`object.__str__` method. 

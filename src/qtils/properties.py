@@ -70,20 +70,20 @@ def weakproperty(setter):
 
     Example:
 
-    >>> import sys
-    >>> class SomeClass(object): pass
-    >>> class Foo(object):
-    ...     @weakproperty
-    ...     def bar(self, value): pass
-    ...
-    >>> some_obj = SomeClass()
-    >>> original_refcount = sys.getrefcount(some_obj)
-    >>> foo = Foo()
-    >>> foo.bar = some_obj  # Reference count should not increase because some_obj is weak referenced.
-    >>> original_refcount == sys.getrefcount(some_obj)
-    True
-    >>> foo._bar # weakref object stored as private variable
-    <weakref at ... to 'SomeClass' at ...>
+        >>> import sys
+        >>> class SomeClass(object): pass
+        >>> class Foo(object):
+        ...     @weakproperty
+        ...     def bar(self, value): pass
+        ...
+        >>> some_obj = SomeClass()
+        >>> original_refcount = sys.getrefcount(some_obj)
+        >>> foo = Foo()
+        >>> foo.bar = some_obj  # Reference count should not increase because some_obj is weak referenced.
+        >>> original_refcount == sys.getrefcount(some_obj)
+        True
+        >>> foo._bar # weakref object stored as private variable
+        <weakref at ... to 'SomeClass' at ...>
     
     """
     name = setter.__name__
@@ -114,23 +114,23 @@ def cachedproperty(getter=None, setter=None, deleter=None, varname=None):
         return (property): property object with caching ability
 
     Example:
-
-    >>> class Foo(object):
-    ...     @cachedproperty
-    ...     def bar(self):
-    ...         print('getter called')
-    ...         return "hello world"
-    ...
-    >>> obj = Foo()
-    >>> obj.bar     # first call, getter is called
-    getter called
-    'hello world'
-    >>> obj.bar     # second call, getter is not called
-    'hello world'
-    >>> del obj.bar # removing cached value
-    >>> obj.bar     # getter is called again
-    getter called
-    'hello world'
+        
+        >>> class Foo(object):
+        ...     @cachedproperty
+        ...     def bar(self):
+        ...         print('getter called')
+        ...         return "hello world"
+        ...
+        >>> obj = Foo()
+        >>> obj.bar     # first call, getter is called
+        getter called
+        'hello world'
+        >>> obj.bar     # second call, getter is not called
+        'hello world'
+        >>> del obj.bar # removing cached value
+        >>> obj.bar     # getter is called again
+        getter called
+        'hello world'
 
     """
     varname_ = varname
