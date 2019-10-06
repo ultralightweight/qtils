@@ -369,7 +369,7 @@ class DATA_UNIT_SYSTEM(Enum):
 _DATASIZE_SUFFIXES_AND_PRECISIONS = (
     (
         (('b', "B", "byte"), 0),
-        (('k', "KiB", "kibibyte"), 0),
+        (('K', "KB", "kibibyte"), 0),
         (('M', "MiB", "mebibyte"), 1),
         (('G', "GiB", "gibibyte"), 2),
         (('T', "TiB", "tebibyte"), 2),
@@ -423,10 +423,10 @@ class DataSize(int):
     the default unit in the ``DEFAULT_UNIT`` class attribute.
 
     This class supports different systems of units. It supports the ``BINARY``
-    system, in which a magnitude is ``2**10=1024``, and the ``METRIC`` systems, in which 
-    a magnitude is ``10**3=1000``. By default it uses the ``METRIC`` system. Read more
-    about information unit systems in this 
-    `Wikipedia article <https://en.wikipedia.org/wiki/Units_of_information>`_
+    system in which a magnitude is ``2**10=1024`` bytes, and the ``METRIC`` system in which 
+    a magnitude is ``10**3=1000`` bytes. By default it uses the ``METRIC`` system. Read more
+    about the topic in the  
+    `Units of information Wikipedia article <https://en.wikipedia.org/wiki/Units_of_information>`_.
 
 
     Examples:
@@ -478,7 +478,7 @@ class DataSize(int):
         >>> metric_1k
         1000
         >>> binary_1k.format(system=DATA_UNIT_SYSTEM.BINARY)
-        '1 k'
+        '1 K'
         >>> metric_1k.format(system=DATA_UNIT_SYSTEM.BINARY)
         '1000 b'
 
@@ -653,7 +653,7 @@ class DataSize(int):
             >>> size.format(unit='m', precision=0, unit_format=2, system=0)
             '1808 mebibytes'
             >>> size.format(unit="k", number_format="{:>20,.3f} {}", system=0)
-            '       1,851,189.729 k'
+            '       1,851,189.729 K'
             >>> size.format(unit="k", number_format="{:>20,.3f} {}", unit_format=2, system=0)
             '       1,851,189.729 kibibytes'
             
