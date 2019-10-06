@@ -56,6 +56,7 @@ Attributes:
 
 import re
 import math
+import datetime
 from enum import Enum
 
 from .collections import qlist, qdict
@@ -749,6 +750,65 @@ class DataSize(int):
     def __pow__(self, other, modulo):
         return DataSize(super().__pow__(other, modulo))
 
+
+
+# -----------------------------------------------------------------------------
+# DataRate
+# -----------------------------------------------------------------------------
+
+@__all__.register
+class DataRate(DataSize):  # pylint: disable=too-few-public-methods 
+    """Integer object representing data rate (as data-over-time) with two-way 
+    conversion ability. 
+
+    Internally it stores data rate in bytes-per-second. This can be converted to
+    different formats using the :meth:`DataRate.format` method. 
+
+    Examples:
+
+       >>> print(DataRate(1024))
+       1 k/s
+       >>> print(DataRate(1024))
+       1 k/s
+       >>> print(DataRate("1 mbps"))
+       1.0 M/s
+       >>> print(DataRate("1.5 MB/s"))
+       1.5 M/s
+
+    """
+
+    # def __new__(self, value):
+    #     if value 
+
+    def format(self, *args, **kwargs):
+        """returns formatted
+        """
+        return str(self)
+
+
+class MeasuredDataRate(): # pylint: disable=useless-object-inheritance,super-init-not-called
+    """The class supports data bandwidth calculation by subsequentual calls to 
+    :meth:`MeasuredDataRate.digest`. This is useful for measuring continuously the data rate
+    for an ongoing IO activity.
+
+    The class supports time estimation based on it's current value. This is useful for displaying
+    remaining time of a data transfer based on the current data rate.
+
+    >>> mdr = MeasuredDataRate()
+    >>> mdr
+
+    """
+
+    def __init__(self, start: datetime.datetime = None, value: int = 0): # pylint: disable=super-init-not-called
+        self.start = None
+        self.digested = value
+
+    def digest(self, data_size):
+        if self.start is None:
+            self.start = datatime.datetime.now()
+
+    def estimate(self, data_size):
+        pass
 
 
 
