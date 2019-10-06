@@ -35,6 +35,7 @@ __version__ = "0.8.0"
 
 from .collections import *
 from .properties import *
+from .formatting import *
 
 
 # -------------------------------------------------------------------------------

@@ -12,4 +12,5 @@ Submodules
 .. toctree::
 
    qtils.collections
+   qtils.formatting
    qtils.properties
