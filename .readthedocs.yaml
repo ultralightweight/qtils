@@ -13,14 +13,11 @@ sphinx:
 # Optionally build your docs in additional formats such as PDF and ePub
 formats: html
 
-# Optionally set the version of Python and requirements required to build your docs
 python:
-  version: 3.7
-  install:
-    - requirements: requirements.txt
-    - requirements: requirements-docs.txt
-    - requirements: requirements-test.txt
-    - 
-      method: pip
-      path: .
-
+   version: 3.7
+   install:
+      - requirements: requirements.txt
+      - requirements: requirements-docs.txt
+      - requirements: requirements-test.txt
+      - method: pip
+        path: .
