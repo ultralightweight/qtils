@@ -13,4 +13,5 @@ Submodules
 
    qtils.collections
    qtils.formatting
+   qtils.logutils
    qtils.properties
