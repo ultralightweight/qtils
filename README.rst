@@ -18,7 +18,7 @@ Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Pyt
 
 Dedication
 -------------
-This library is dedicated to Pál Hubai a.k.a. Surfy my programming Master, who thought me and guided me how to code when I was a child.
+This library is dedicated to Pál Hubai a.k.a. Surfy my programming Master, who thought me how to code when I was a child.
 
 
 Documentation
