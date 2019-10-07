@@ -276,6 +276,7 @@ install:: $(SOURCES)
 # -----------------------------------------------------------------------------
 
 bump-%:: deps-build
+	rm -rf dist
 	source activate && bumpversion --list --commit --tag $(subst bump-,,$@)
 
 
