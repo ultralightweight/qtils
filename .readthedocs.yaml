@@ -20,6 +20,6 @@ python:
     - requirements: requirements.txt
     - requirements: requirements-docs.txt
     - requirements: requirements-test.txt
-    - method: pip
+    -   method: pip
         path: .
 
