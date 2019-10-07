@@ -4,10 +4,15 @@
 
 ------
 
+.. image:: https://img.shields.io/pypi/v/qtils   
+    :alt: PyPI
+
 .. image:: https://readthedocs.org/projects/qtils/badge/?version=latest
     :target: https://qtils.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://img.shields.io/github/v/release/ultralightweight/qtils   
+    :alt: GitHub release (latest SemVer)
 
 
 Overview
