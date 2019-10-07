@@ -56,7 +56,6 @@ Attributes:
 
 import re
 import math
-import datetime
 from enum import Enum
 
 from .collections import qlist, qdict
