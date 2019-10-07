@@ -2,6 +2,14 @@
 
 .. image:: docs/_static/qtils-logo.png
 
+------
+
+.. image:: https://readthedocs.org/projects/qtils/badge/?version=latest
+    :target: https://qtils.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
+
+
 Overview
 ----------
 
@@ -10,36 +18,31 @@ Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Pyt
 
 Dedication
 -------------
-This library is dedicated to Pál Hubai, Surfy my programming Master, who thought me how to code and guided me when I was a child.
+This library is dedicated to Pál Hubai a.k.a. Surfy my programming Master, who thought me and guided me how to code when I was a child.
 
 
-Quick links
+Documentation
 -------------
 
-- :ref:`Contents <toc>`
-
-- API Reference of the :mod:`qtils` module.
-
-- :ref:`Examples and tutorials <tut_index>`
-
+Documentation is available at https://qtils.readthedocs.io/en/latest/
 
 
 Features 
 ----------
 
-- Convenient collections :class:`qtils.collections.qdict`, :class:`qtils.collections.qlist` and :class:`qtils.collections.QEnum`
+- Convenient collections `qdict <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.collections.qdict>`_, `qlist <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.collections.qlist>`_ and `QEnum <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.collections.QEnum>`_
 
-- Self-formatting object in :class:`qtils.formatting.PrettyObject`
+- Self-formatting object in `PrettyObject <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.formatting.PrettyObject>`_
 
-- Two-way formatter/parser for file sizes, for example '5.4 GB') in :class:`qtils.formatting.DataSize`
+- Two-way formatter/parser for file sizes, for example '5.4 GB') in `DataSize <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.formatting.DataSize>`_
 
-- Weak reference property decorator :func:`qtils.properties.weakproperty`
+- Weak reference property decorator `weakproperty <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.properties.weakproperty>`_
 
-- Cached property decorator :func:`qtils.properties.cachedproperty`
+- Cached property decorator `cachedproperty <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.properties.cachedproperty>`_
 
-- Class logger decorator :func:`qtils.log_utils.logged`
+- Class logger decorator `logged <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.log_utils.logged>`_
 
-- Common string transformations in :mod:`qtils.string_utils`
+- Common string transformations in `qtils.string_utils <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#module-qtils.string_utils>`_
 
 
 
@@ -88,5 +91,5 @@ Quick Examples
     1450000
 
 
-See more examples and usage in :ref:`examples and tutorials <tut_index>`.
+See more examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`.
 
