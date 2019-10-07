@@ -1,0 +1,15 @@
+#####################################################################
+## Package Descriptor
+#####################################################################
+## version: 1.0
+#####################################################################
+
+name: qtils
+description: Smart utilities for smart python programmers
+version: 0.8.0
+type: py-lib
+url: https://github.com/ultralightweight/qtils
+scm-url: git@github.com:ultralightweight/qtils.git
+author: DANA
+author-email: mondomhogynincsen@gmail.com
+

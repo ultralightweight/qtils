@@ -1,0 +1,4 @@
+include *.rst *.txt LICENSE docs/Makefile
+recursive-include docs *.rst
+prune docs/_build
+

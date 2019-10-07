@@ -1,6 +1,13 @@
+.. qtils documentation master file, created by
+   sphinx-quickstart on Fri Oct  4 20:15:21 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
 
-.. image:: docs/_static/qtils-logo.png
+Welcome to Qtils's documentation!
+=================================
+
+.. image:: _static/qtils-logo.png
 
 Overview
 ----------
@@ -16,7 +23,7 @@ This library is dedicated to Pál Hubai, Surfy my programming Master, who though
 Quick links
 -------------
 
-- :ref:`Contents <toc>`
+- :ref:`Contents <toc>` 
 
 - API Reference of the :mod:`qtils` module.
 
@@ -90,3 +97,28 @@ Quick Examples
 
 See more examples and usage in :ref:`examples and tutorials <tut_index>`.
 
+
+
+Contribution
+-------------------
+
+PullRequests are always welcome.
+
+
+Full Contents
+--------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   tutorial/index
+   apidoc/qtils
+
+
+
+Indices and tables
+--------------------
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
