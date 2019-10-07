@@ -20,11 +20,14 @@ MAINTAINER_EMAIL = "mondomhogynincsen@gmail.com"
 SCM_URL= "https://github.com/ultralightweight/qtils"
 KEYWORDS = []
 CLASSIFIERS = [
-    "Development Status :: 2 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries",
 ]
+
 
 # ---------------------------------------------------------------------------------------
 # imports

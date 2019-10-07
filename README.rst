@@ -1,6 +1,6 @@
 
 
-.. image:: docs/_static/qtils-logo.png
+.. image:: https://qtils.readthedocs.io/en/latest/_images/qtils-logo.png
 
 ------
 
