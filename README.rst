@@ -156,6 +156,19 @@ Formatting and parsing file sizes
     '1,000,000,000 k'
 
 
+
+Adding a class-private logger
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+    >>> @logged
+    ... class LoggedFoo():
+    ...     def __init__(self):
+    ...         self.__logger.info("Hello World from Foo!")
+    ...
+
+
 See more examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`_.
 
 
