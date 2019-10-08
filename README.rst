@@ -7,18 +7,23 @@
 .. image:: https://img.shields.io/github/v/tag/ultralightweight/qtils  
     :alt: GitHub tag (latest SemVer)
 
-.. image:: https://readthedocs.org/projects/qtils/badge/?version=latest  
-    :target: https://qtils.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
-
 .. image:: https://travis-ci.org/ultralightweight/qtils.svg?branch=master
     :target: https://travis-ci.org/ultralightweight/qtils
     :alt: Travis CI build status
+
+.. image:: https://coveralls.io/repos/github/ultralightweight/qtils/badge.svg?branch=master
+    :target: https://coveralls.io/github/ultralightweight/qtils?branch=master
+
+.. image:: https://readthedocs.org/projects/qtils/badge/?version=latest  
+    :target: https://qtils.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 .. image:: https://img.shields.io/pypi/v/qtils  
     :target: https://pypi.org/project/qtils/
     :alt: PyPI
 
+.. image:: https://img.shields.io/github/issues-raw/ultralightweight/qtils
+    :alt: GitHub issues
 
 
 Overview

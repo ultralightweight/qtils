@@ -6,3 +6,4 @@ activate
 **/*.pyc
 **/*.egg-info
 dist/*
+.coverage

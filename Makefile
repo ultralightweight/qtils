@@ -210,7 +210,7 @@ test-e2e:: deps-test
 .PHONY: test
 test:: deps-test
 	source activate && pylint $(PACAKGE_SOURCES)/
-	source activate && pytest $(PACAKGE_SOURCES)/ $(PACKAGE_TEST)/
+	source activate && pytest --cov $(PACAKGE_SOURCES)/ $(PACAKGE_SOURCES)/ $(PACKAGE_TEST)/
 
 
 # -----------------------------------------------------------------------
