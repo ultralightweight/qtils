@@ -695,8 +695,13 @@ class DataSize(int):
                  1.431 MiB
                516.891 MiB
              1,525.879 MiB
-            
 
+            # resetting the default defaults.
+            >>> DataSize.DEFAULT_UNIT_SYSTEM = DATA_UNIT_SYSTEM.METRIC
+            >>> DataSize.DEFAULT_UNIT = None                                 
+            >>> DataSize.DEFAULT_UNIT_FORMAT = 0                             
+            >>> DataSize.DEFAULT_NUMBER_FORMAT = "{:.{precision}f} {:}"
+            
         """
         system = self.DEFAULT_UNIT_SYSTEM if system is None else system
         if not isinstance(system, DATA_UNIT_SYSTEM):

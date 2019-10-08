@@ -13,17 +13,20 @@ Dynamic module level exports using ``qlist``
 
 .. code-block:: python
 
-    from qtils import qlist
+    >>> from qtils import qlist
 
-    __all__ = qlist()
+    >>> __all__ = qlist()
 
-    @__all__.register
-    class Foo(object):
-        pass
+    >>> @__all__.register
+    ... class Foo(object):
+    ...     pass
 
-    @__all__.register
-    def bar():
-        pass
+    >>> @__all__.register
+    ... def bar():
+    ...     pass
+    
+    >>> print(__all__)
+    ['Foo', 'bar']
 
 
 Convenient `dot notation` for dictionary element get and set
@@ -31,7 +34,7 @@ Convenient `dot notation` for dictionary element get and set
 
 .. code-block:: python
 
-    from qtils import qdict
+    >>> from qtils import qdict
 
     >>> d = qdict(foo="hello", bar="world")
     >>> d.foo = 1234
@@ -112,7 +115,7 @@ unfortunately not every API is under the control of sane people, so we just need
     >>> value == True
     False
     >>> value == False
-    True
+    False
     >>> value = NA
     >>> value is None
     False

@@ -37,13 +37,18 @@ Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Pyt
 
 Dedication
 -------------
-This library is dedicated to Pál Hubai a.k.a. Surfy my programming Master, who thought me how to code when I was a child.
+This library is dedicated to **Pál Hubai, Surfy**, my programming Master who spent countless hours answering
+my questions, providing code examples, and guiding me towards the right approach when I was learning programming
+as a child. *Thank you!*
+
 
 
 Documentation
 -------------
 
-Documentation is available at https://qtils.readthedocs.io/en/latest/
+- Documentation is available at https://qtils.readthedocs.io/en/latest/
+
+- See examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`_
 
 
 Features 
@@ -68,6 +73,7 @@ Features
 Installation 
 --------------
 
+Qtils is available in PyPI:
 
 .. code-block:: bash
 
@@ -75,23 +81,32 @@ Installation
 
 
 
-Quick Examples
+Examples
 -------------------
 
+
+Attribute dictionary
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
     >>> from qtils import *
 
-
     >>> d = qdict()
     >>> d.hello = "world"
     >>> d.hello
     'world'
+    >>> d.answer = 42
+    >>> d['answer']
+    42
 
+    
+Objects with self-formatting capability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
 
     >>> class MyObject(PrettyObject):
-    ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
     ...     __pretty_fields__ = [
     ...         'hello',
     ...         'answer',
@@ -101,14 +116,59 @@ Quick Examples
     ...         self.answer = answer
     >>> obj = MyObject('world', 42)
     >>> print(obj)
-    <MyObject object at ... hello='world', answer=42>
+    <__main__.MyObject object at ... hello='world', answer=42>
 
+
+Cached property
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python 
+
+    >>> class Foo(object):
+    ...     @cachedproperty
+    ...     def bar(self):
+    ...         # doing some super computation-intensive thing here
+    ...         print('getter called')
+    ...         return "hello world"
+    ...
+    >>> obj = Foo()
+    >>> obj.bar     # first call, getter is called
+    getter called
+    'hello world'
+    >>> obj.bar     # second call, getter is not called
+    'hello world'
+    >>> del obj.bar # removing cached value
+    >>> obj.bar     # getter is called again
+    getter called
+    'hello world'
+
+
+Formatting and parsing file sizes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
 
     >>> print(DataSize(123000))
     123 k
     >>> DataSize('1.45 megabytes')
     1450000
+    >>> DataSize('1T').format(unit="k", number_format="{:,.0f} {}")
+    '1,000,000,000 k'
 
 
-See more examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`.
+See more examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`_.
+
+
+Contribution
+--------------
+
+Pull requests are always welcome.
+
+
+
+
+
+
+
+
 
