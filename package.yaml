@@ -6,7 +6,7 @@
 
 name: qtils
 description: Smart utilities for smart python programmers
-version: 0.9.1
+version: 0.9.2
 type: py-lib
 url: https://github.com/ultralightweight/qtils
 scm-url: git@github.com:ultralightweight/qtils.git
