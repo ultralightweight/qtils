@@ -1,9 +1,15 @@
 language: python
 
 python:
-  - '3.5'
-  - '3.6'
   - '3.7'
 
+script: make release
 
-script: make build
+
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: RfCYRyHHN52TtunnTBQUjSEzV6FoO7dEJQqV0hXXH1ec5cz54G8YKlwMOIEGJRpnSpHSyQRh2XUn4clJl89eRLCBLTT3KJ4LU38v+/jHDWQC/WsMCeq0yU35vzvlnXV28ZNPwsS3IlBIYr44DCD88q2TdCUYlZxhnEemAFLW0Ig8sMIG/iXL98Z88xK82ipq4ZTPzpFSt5sF6+ir91FHMo1JVawGvV5fZ7uPpEoC8LLbcUE11kuE+1a1UDNroebDFnpDzqyPBU5cAeEh1z0WB5jxUqXDL6yJytux9B+ywukpJaWYFDIxKGZDoNHlQOF3JRgIXge6zxhXsztc8U/+bTynjPDWIlnB9Jrd8Bjq69Mz1J2MouWbeBUacNE1sd8td9+Q8k05DzPKWiqNQTlvST6XpVKXrTD+lL7QlzF3aBj7HZ87kgFT07x1aloDsBe+Ff3mkcIxLUVZriQlW63jgnlrRVirddQbaD6bwd2La9YRhAYqxigbP0gL/QBA92iu1p46Z8KTGW3F5gIcO9CYpqyYNtxRUUxTZl7WJbW/W7quE2kR5maxFWfNKbxfMQXvj5Xbwlx+KRQMAuIxgqyLaW4b98dXkPl6O3wrkncqPbwCdz2dKZtdlPgLrNQpeS/uce5AOIJUwPMSXnP9JhlF7tLNknAu55UmFsyTXax5gmM=
+  on:
+    tags: true
