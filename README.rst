@@ -5,6 +5,7 @@
 ------
 
 .. image:: https://img.shields.io/github/v/tag/ultralightweight/qtils  
+    :target: http://github.com/ultralightweight/qtils
     :alt: GitHub tag (latest SemVer)
 
 .. image:: https://travis-ci.org/ultralightweight/qtils.svg?branch=master
@@ -18,7 +19,7 @@
     :target: https://qtils.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://img.shields.io/pypi/v/qtils  
+.. image:: https://img.shields.io/pypi/v/qtils
     :target: https://pypi.org/project/qtils/
     :alt: PyPI
 
