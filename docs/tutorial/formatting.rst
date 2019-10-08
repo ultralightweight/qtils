@@ -14,7 +14,7 @@ Self-formatting objects using :class:`PrettyObject`
 
 
 ``PrettyObject`` - A self-formatting object to be used with ``print()``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------------------------------------
 
 Ever been looking for an easy way to ``print`` an object and see it's internal state? Look no further!
 
@@ -61,6 +61,48 @@ You can customize the format of the class and the individual fields too:
 
     obj1 = MyPrettyObject('hello')
     print( obj1 )
+
+
+
+Creating table-like formatting
+--------------------------------
+
+Creating table-like formatting using tab ``\\t`` as field separator and fixed width fields.
+
+
+.. code-block:: python
+    
+    >>> from qtils import PrettyObject, PRETTY_FORMAT
+
+    >>> class MathConstant(PrettyObject):
+    ...     __pretty_format__ = PRETTY_FORMAT.MINIMAL
+    ...     __pretty_field_separator__ = "    " # should be a tab but it fails in doctest
+    ...     __pretty_fields__ = [
+    ...         "name!r:<23",
+    ...         "symbol!s:<5",
+    ...         "value:>10.6f",
+    ...     ]
+    ...     def __init__(self, name, symbol, value):
+    ...         self.name = name
+    ...         self.symbol = symbol
+    ...         self.value = value
+    ...
+    >>> math_constants = [
+    ...     MathConstant("Archimedes constant", "π", 3.1415926535),
+    ...     MathConstant("Euler's number", "e", 2.7182818284),
+    ...     MathConstant("Pythagoras constant", "√2", 1.414213562373095),
+    ... ]
+    >>> for mc in math_constants:
+    ...     print(mc)
+    <MathConstant name='Archimedes constant'      symbol=π        value=  3.141593>
+    <MathConstant name="Euler's number"           symbol=e        value=  2.718282>
+    <MathConstant name='Pythagoras constant'      symbol=√2       value=  1.414214>
+
+
+tabs:
+	
+					
+
 
 
 .. _tut_datasize:

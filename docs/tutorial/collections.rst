@@ -31,6 +31,54 @@ for reading and writing dictionary elements
     'world'
 
 
+Caveats 
+----------
+
+Keeping qdict subclass private variables accessible.
+
+
+.. code-block:: python
+
+    >>> class MyDict(qdict):
+    ...     a = 'initial value'
+    ...     def __init__(self, a, b):
+    ...         self.a = a
+    ...         self._b = b
+    ...
+    >>> md = MyDict('foo', 42)
+    >>> md
+    {'a': 'foo'}
+    >>> md.a          # returns the class attribute
+    'initial value'
+    >>> md._b
+    42
+    >>> md.a = 'bar'
+    >>> md
+    {'a': 'bar'}
+    >>> md.a          # still returns the class attribute
+    'initial value'
+
+    >>> class MyDict(qdict):
+    ...     __qdict_allow_attributes__ = True
+    ...     a = None
+    ...     def __init__(self, a, b):
+    ...         self.a = a
+    ...         self._b = b
+    ...
+    >>> md = MyDict('foo', 42)
+    >>> md
+    {}
+    >>> md.a
+    'foo'
+    >>> md._b
+    42
+    >>> md.a = 'bar'
+    >>> md
+    {}
+    >>> md.a
+    'bar'
+
+
 
 
 :class:`qlist` usage examples
