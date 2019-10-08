@@ -14,6 +14,7 @@
 
 .. image:: https://coveralls.io/repos/github/ultralightweight/qtils/badge.svg?branch=master
     :target: https://coveralls.io/github/ultralightweight/qtils?branch=master
+    :alt: Code Coverage
 
 .. image:: https://readthedocs.org/projects/qtils/badge/?version=latest  
     :target: https://qtils.readthedocs.io/en/latest/?badge=latest
@@ -24,6 +25,7 @@
     :alt: PyPI
 
 .. image:: https://img.shields.io/github/issues-raw/ultralightweight/qtils
+    :target: https://github.com/ultralightweight/qtils/issues
     :alt: GitHub issues
 
 
