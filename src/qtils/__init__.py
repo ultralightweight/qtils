@@ -27,7 +27,7 @@ Qtils - pronounces as cuteels - is a syntactic sugar library to make sweet
 Python coding even sweeter.
 """
 
-__version__ = "0.9.3"
+__version__ = "0.9.4"
 
 # -------------------------------------------------------------------------------
 # imports
