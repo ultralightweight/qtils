@@ -25,12 +25,7 @@
 
 
 """
-Collections module
-===================
-
-
-This module contains enhanced versions of python builtin classes.
-
+Check out the examples for this module in :ref:`tut_collections`.
 
 """
 

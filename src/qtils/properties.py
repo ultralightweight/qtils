@@ -25,13 +25,7 @@
 
 
 """
-Properties module
-===================
-
-
-This module contains enhanced property implementations.
-
-
+See more usage examples in :ref:`tut_properties`
 
 """
 
@@ -118,6 +112,7 @@ def cachedproperty(getter=None, setter=None, deleter=None, varname=None):
         >>> class Foo(object):
         ...     @cachedproperty
         ...     def bar(self):
+        ...         # doing some super computation-intensive thing here
         ...         print('getter called')
         ...         return "hello world"
         ...

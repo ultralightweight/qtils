@@ -32,7 +32,7 @@
 Overview
 ----------
 
-Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Python coding even sweeter.
+Qtils - pronounced as cutieels - is a syntactic sugar library to make sweet Python coding even sweeter.
 
 
 Dedication
