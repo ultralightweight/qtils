@@ -4,16 +4,21 @@
 
 ------
 
-.. image:: https://img.shields.io/pypi/v/qtils   
-    :target: https://pypi.org/project/qtils/
-    :alt: PyPI
+.. image:: https://img.shields.io/github/v/tag/ultralightweight/qtils  
+    :alt: GitHub tag (latest SemVer)
 
-.. image:: https://readthedocs.org/projects/qtils/badge/?version=latest
+.. image:: https://readthedocs.org/projects/qtils/badge/?version=latest  
     :target: https://qtils.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://img.shields.io/github/v/tag/ultralightweight/qtils   
-    :alt: GitHub tag (latest SemVer)
+.. image:: https://travis-ci.org/ultralightweight/qtils.svg?branch=master
+    :target: https://travis-ci.org/ultralightweight/qtils
+    :alt: Travis CI build status
+
+.. image:: https://img.shields.io/pypi/v/qtils  
+    :target: https://pypi.org/project/qtils/
+    :alt: PyPI
+
 
 
 Overview
