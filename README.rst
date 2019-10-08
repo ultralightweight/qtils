@@ -45,7 +45,7 @@ Features
 
 - Self-formatting object in `PrettyObject <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.formatting.PrettyObject>`_
 
-- Two-way formatter/parser for file sizes, for example '5.4 GB') in `DataSize <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.formatting.DataSize>`_
+- Two-way formatter/parser for file sizes, for example '5.4 GB', in `DataSize <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.formatting.DataSize>`_
 
 - Weak reference property decorator `weakproperty <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.properties.weakproperty>`_
 
