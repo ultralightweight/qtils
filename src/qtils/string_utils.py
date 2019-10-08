@@ -185,6 +185,10 @@ def titleize(value):
 def firstline(value):
     """Returns the first line of a string
     
+    >>> text = "This is a long\\nmulti\\nline text with\\nmany line breaks"
+    >>> firstline(text)
+    'This is a long'
+
     """
     return value.split('\n', 1)[0] if value else ''
 

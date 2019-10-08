@@ -78,14 +78,47 @@ class _NAMeta(type):
 
     __instance = None
 
+    def __eq__(cls, other):
+        """NA should be equal to itself and any subclasses of itself
+        
+        >>> NA == NA()
+        True
+        >>> class MyNA(NA): pass
+        >>> MyNA == NA
+        True
+        >>> MyNA() == NA
+        True
+        """
+        if isinstance(other, type) and issubclass(other, NA):
+            return True
+        return False
 
-class NA(metaclass=_NAMeta):
+
+class NA(metaclass=_NAMeta):  # pylint: disable=too-few-public-methods
     """This class represents the **ValueNotAvailable** state.
 
     This constant is meant to be used when :py:class:`None` has a meaningful value, 
     and it can not be used to represent the state of a value being absent.
 
-    Example:
+    Examples:
+        
+        ``NA`` is always represented in a short format:
+
+        >>> str(NA)
+        '??'
+        >>> repr(NA)
+        'NA'
+
+
+        ``NA`` only exsists in class form, no instance can be created from it.
+
+        >>> NA == NA()
+        True
+        >>> NA is NA()
+        True
+        
+
+        Usage example:
 
         >>> data_from_an_api = {'field1': 'foo', 'field2': None}
         >>> def is_field_present(field_name):
@@ -103,14 +136,14 @@ class NA(metaclass=_NAMeta):
     __str__ = lambda s: "??"
 
     def __new__(cls):
+        """No instance should ever be created
+
+        >>> NA() is NA
+        True
+
+        """
         return cls
 
-    def __eq__(self, other):
-        if isinstance(other, NA):
-            return True
-        if isinstance(other, type) and issubclass(other, NA):
-            return True
-        return False
 
 # NA = NAMeta("NA", (_NA,), {})
 
@@ -146,7 +179,6 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         Simple example with printing fields of the object:
 
         >>> class MyObject(PrettyObject):
-        ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
         ...     __pretty_fields__ = [
         ...         'hello',
         ...         'answer',
@@ -156,7 +188,23 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         ...         self.answer = answer
         >>> obj = MyObject('world', 42)
         >>> print(obj)
-        <MyObject object at ... hello='world', answer=42>
+        <qtils.formatting.MyObject object at ... hello='world', answer=42>
+
+
+        This is works automatically for objects with ``__slots__``
+
+        >>> class MySlotObject(PrettyObject):
+        ...     __slots__ = [
+        ...         'hello',
+        ...         'answer',
+        ...     ]
+        ...     def __init__(self, hello, answer):
+        ...         self.hello = hello
+        ...         self.answer = answer
+        >>> obj = MySlotObject('world', 42)
+        >>> print(obj)
+        <qtils.formatting.MySlotObject object at ... hello='world', answer=42>
+
 
 
     Implementation Notes:
@@ -221,51 +269,22 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 
     Examples:
 
-        Creating table-like formatting using tab ``\\t`` as field separator and fixed width fields.
-
-        >>> class MathConstant(PrettyObject):
-        ...     __pretty_format__ = PRETTY_FORMAT.MINIMAL
-        ...     __pretty_field_separator__ = "\t"
-        ...     __pretty_fields__ = [
-        ...         "name!s:<20",
-        ...         "symbol!s:<5",
-        ...         "value:>10.6f",
-        ...     ]
-        ...     def __init__(self, name, symbol, value):
-        ...         self.name = name
-        ...         self.symbol = symbol
-        ...         self.value = value
-        ...
-        >>> math_constants = [
-        ...     MathConstant("Archimedes constant", "π", 3.1415926535),
-        ...     MathConstant("Euler's number", "e", 2.7182818284),
-        ...     MathConstant("Pythagoras constant", "√2", 1.414213562373095),
-        ... ]
-        >>> for mc in math_constants:
-        ...     print(mc)
-        <MathConstant name=Archimedes constant   symbol=π      value=  3.141593>
-        <MathConstant name=Euler's number        symbol=e      value=  2.718282>
-        <MathConstant name=Pythagoras constant   symbol=√2     value=  1.414214>
-
-
         Returning :class:`NA` for non-existent fields:
         
         >>> class MyObject(PrettyObject):
-        ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
         ...     __pretty_fields__ = [
         ...         "non_existent",
         ...     ]
         ...
         >>> obj = MyObject()
         >>> print(obj)
-        <MyObject object at ... non_existent=NA>
+        <qtils.formatting.MyObject object at ... non_existent=NA>
 
         Exceptions encountered during formatting are printed as the value for the field.
         Please note that this can lead to problems with fields expecting a ``float`` or ``int`` value. However,
         exceptions during attribute reading should not happen in the first place.
         
         >>> class MyObject(PrettyObject):
-        ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
         ...     __pretty_fields__ = [
         ...         "foo",
         ...     ]
@@ -274,7 +293,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         ...         return non_existent # this will raise an exception
         >>> obj = MyObject()
         >>> print(obj)
-        <MyObject object at ... foo=NameError("name 'non_existent' is not defined")>
+        <qtils.formatting.MyObject object at ... foo=NameError("name 'non_existent' is not defined")>
 
 
     """
@@ -286,6 +305,8 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 
     @classmethod 
     def __parse_pretty_field_def(cls, field_def):
+        """Parses a single field definition
+        """
         if '!' in field_def:
             field_def = field_def.split('!', 1)
             field_def[1] = '!' + field_def[1]
@@ -299,6 +320,17 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 
     @classmethod
     def __get_pretty_field_defs(cls):
+        """Returns and caches parsed field definition array
+        
+        Testing if everything works if no fields are defined.
+
+        >>> class Obj(PrettyObject):
+        ...     def __init__(self, a):
+        ...         self.a = a
+        >>> obj = Obj(1)
+        >>> print(obj)
+        <qtils.formatting.Obj object at ...>
+        """
         if getattr(cls, '__pretty_field_defs__', None) is None:
             fields = getattr(cls, '__pretty_fields__', None)
             if not fields:
@@ -446,6 +478,8 @@ class DataSize(int):
         Parsing data sizes from strings using the ``METRIC`` unit system (default
         behaviour):
 
+        >>> DataSize('256')
+        256
         >>> DataSize('1.45 megabytes')
         1450000
         >>> DataSize('23.3G')
@@ -495,10 +529,17 @@ class DataSize(int):
         3.8 M
         >>> size / 3
         500000
-        >>> print(size / 3)
-        500 k
+        >>> print(size - 500000)
+        1.0 M
+    
+        Throws :py:class:`ValueError` exception if data can not be parsed:
 
-        
+        >>> DataSize('invalid size data')
+        Traceback (most recent call last):
+        ...
+        ValueError: Invalid data size literal: 'invalid size data'
+
+
     Formatting can be controlled and customized using the
     :meth:`DataSize.format` method, or by changing the defaults set
     by class attributes.
@@ -528,6 +569,22 @@ class DataSize(int):
     DEFAULT_NUMBER_FORMAT = "{:.{precision}f} {:}"
 
     def __new__(cls, value, system=None):
+        """Parses input value as file size
+    
+        Testing error handling
+
+        >>> DataSize('0..1')
+        Traceback (most recent call last):
+        ...
+        ValueError: Invalid data size literal: '0..1'
+
+        >>> DataSize((1, 2, 3))
+        Traceback (most recent call last):
+        ...
+        ValueError: Invalid data size literal: '(1, 2, 3)'
+
+
+        """
         if isinstance(value, str):
             value = value.lower()
             if system is None:
@@ -643,6 +700,8 @@ class DataSize(int):
             '1.7654 G'
             >>> size.format(unit='m', system=0)
             '1807.8 M'
+            >>> size.format(unit=2, system=0)
+            '1807.8 M'
             >>> size.format(unit='m', precision=2, system=0)
             '1807.80 M'
             >>> size.format(unit_format=1, system=0)
@@ -655,6 +714,14 @@ class DataSize(int):
             '       1,851,189.729 K'
             >>> size.format(unit="k", number_format="{:>20,.3f} {}", unit_format=2, system=0)
             '       1,851,189.729 kibibytes'
+
+            Raises AttributeError if invalid arguments are supplied.
+
+            >>> size.format(unit='l', system=0)
+            Traceback (most recent call last):
+            ...
+            AttributeError: Unknown DataSize unit: 'l'
+            
             
 
             Changing the default formatting settings
@@ -740,20 +807,18 @@ class DataSize(int):
         return DataSize(int(self)*other)
 
     def __truediv__(self, other):
+        """
+        >>> DataSize(10) // 3
+        3
+        """
         return DataSize(super().__truediv__(other))
 
-    def __floordiv__(self, other):
-        return DataSize(super().__floordiv__(other))
-
     def __mod__(self, other):
+        """
+        >>> DataSize(5) % 3
+        2
+        """
         return DataSize(super().__mod__(other))
-
-    def __divmod__(self, other):
-        return DataSize(super().__divmod__(other))
-
-    def __pow__(self, other, modulo):
-        return DataSize(super().__pow__(other, modulo))
-
 
 
 
