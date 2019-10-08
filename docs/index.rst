@@ -4,8 +4,8 @@
    contain the root `toctree` directive.
 
 
-Welcome to Qtils's documentation!
-=================================
+Welcome to Qtils 0.9.4 documentation!
+=======================================
 
 .. image:: _static/qtils-logo.png
 
@@ -17,7 +17,10 @@ Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Pyt
 
 Dedication
 -------------
-This library is dedicated to Pál Hubai, Surfy my programming Master, who thought me how to code and guided me when I was a child.
+This library is dedicated to **Pál Hubai, Surfy**, my programming Master who spent countless hours answering
+my questions, providing code examples, and guiding me towards the right approach when I was learning programming
+as a child.
+
 
 
 Quick links

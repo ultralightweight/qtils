@@ -39,7 +39,7 @@ Dedication
 -------------
 This library is dedicated to **Pál Hubai, Surfy**, my programming Master who spent countless hours answering
 my questions, providing code examples, and guiding me towards the right approach when I was learning programming
-as a child. *Thank you!*
+as a child.
 
 
 
