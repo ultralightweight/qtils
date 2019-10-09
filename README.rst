@@ -32,7 +32,7 @@
 Overview
 ----------
 
-Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Python coding even sweeter.
+Qtils - pronounced as cutieels - is a syntactic sugar library to make sweet Python coding even sweeter.
 
 
 Dedication
@@ -92,8 +92,7 @@ Attribute dictionary
 
     >>> from qtils import *
 
-    >>> d = qdict()
-    >>> d.hello = "world"
+    >>> d = qdict(hello = "world")
     >>> d.hello
     'world'
     >>> d.answer = 42
@@ -124,23 +123,24 @@ Cached property
 
 .. code-block:: python 
 
-    >>> class Foo(object):
+    >>> class DeepThought(object):
     ...     @cachedproperty
-    ...     def bar(self):
-    ...         # doing some super computation-intensive thing here
-    ...         print('getter called')
-    ...         return "hello world"
+    ...     def answer_to_life_the_universe_and_everything(self):
+    ...         print('Deep Thought is thinking')
+    ...         # Deep Thought: Spends a period of 7.5 million years
+    ...         # calculating the answer
+    ...         return 42
     ...
-    >>> obj = Foo()
-    >>> obj.bar     # first call, getter is called
-    getter called
-    'hello world'
-    >>> obj.bar     # second call, getter is not called
-    'hello world'
-    >>> del obj.bar # removing cached value
-    >>> obj.bar     # getter is called again
-    getter called
-    'hello world'
+    >>> deep_thougth = DeepThought()
+    >>> deep_thougth.answer_to_life_the_universe_and_everything     # first call, getter is called
+    Deep Thought is thinking
+    42
+    >>> deep_thougth.answer_to_life_the_universe_and_everything     # second call, getter is not called
+    42
+    >>> del deep_thougth.answer_to_life_the_universe_and_everything # removing cached value
+    >>> deep_thougth.answer_to_life_the_universe_and_everything     # getter is called again
+    Deep Thought is thinking
+    42
 
 
 Formatting and parsing file sizes

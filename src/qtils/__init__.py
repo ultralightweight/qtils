@@ -23,8 +23,7 @@
 # -------------------------------------------------------------------------------
 
 """
-Qtils - pronounces as cuteels - is a syntactic sugar library to make sweet
-Python coding even sweeter.
+See usage examples in :ref:`tut_index`.
 """
 
 __version__ = "0.9.4"

@@ -25,12 +25,7 @@
 
 
 """
-Collections module
-===================
-
-
-This module contains enhanced versions of python builtin classes.
-
+Check out the examples for this module in :ref:`tut_collections`.
 
 """
 
@@ -48,6 +43,16 @@ from enum import Enum
 
 class qlist(list):
     """Simple list with convenience functions.
+
+    Example:
+
+        >>> l = qlist(['foo', 'bar'])
+        >>> l.get(3, "not found")
+        'not found'
+
+
+    See more usage examples in :ref:`tut_qlist`.
+
     """
 
 
@@ -128,8 +133,12 @@ class qdict(dict):
         >>> d.answer = 42
         >>> d
         {'foo': 'hello', 'bar': 'world', 'answer': 42}
+    
+    See more usage examples in :ref:`tut_qdict`.
 
     """
+
+    __qdict_allow_attributes__ = False
 
     @classmethod
     def convert(cls, source: dict):
@@ -143,11 +152,15 @@ class qdict(dict):
 
         Example:
 
-            >>> d = dict(a=1,b=dict(c=2,d=dict()))
+            >>> d = dict(a=1,b=dict(c=2,d=dict(),e=[dict(f=3,g=(dict(h=4)))]))
             >>> q = qdict.convert(d)
             >>> isinstance(q.b,qdict)
             True
             >>> isinstance(q.b.d,qdict)
+            True
+            >>> isinstance(q.b.e[0],qdict)
+            True
+            >>> isinstance(q.b.e[0].g,qdict)
             True
 
 
@@ -170,8 +183,53 @@ class qdict(dict):
 
 
     def __setattr__(self, key, value):
-        if key.startswith('_') or key in self.__dict__ or key in self.__class__.__dict__:
-            super(qdict, self).__setattr__(key, value)
+        """Keeping qdict subclass private variables accessible.
+    
+        >>> class MyDict(qdict):
+        ...     a = 'initial value'
+        ...     def __init__(self, a, b):
+        ...         self.a = a
+        ...         self._b = b
+        ...
+        >>> md = MyDict('foo', 42)
+        >>> md
+        {'a': 'foo', '_b': 42}
+        >>> md.a          # returns the class attribute
+        'initial value'
+        >>> md._b
+        42
+        >>> md.a = 'bar'
+        >>> md
+        {'a': 'bar', '_b': 42}
+        >>> md.a          # still returns the class attribute
+        'initial value'
+
+        >>> class MyDict(qdict):
+        ...     __qdict_allow_attributes__ = True
+        ...     a = None
+        ...     def __init__(self, a, b):
+        ...         self.a = a
+        ...         self._b = b
+        ...
+        >>> md = MyDict('foo', 42)
+        >>> md
+        {}
+        >>> md.a
+        'foo'
+        >>> md._b
+        42
+        >>> md.a = 'bar'
+        >>> md
+        {}
+        >>> md.a
+        'bar'
+
+        """
+        if (self.__qdict_allow_attributes__ and
+                (key.startswith('_') or key in self.__dict__ or key in self.__class__.__dict__)
+           ):
+            object.__setattr__(self, key, value)
+            return
         self[key] = value
 
 
@@ -323,11 +381,21 @@ class qdict(dict):
 
         Examples:
 
-            Default behaviour is the same as inherited :py:meth:`dict.update`:
+            Default behaviour is the same as inherited :py:meth:`dict.update`, non-recursive
+            update with adding new keys.
 
             >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
             >>> my_dict.update(dict(b=dict(e=100, f=200), g=300))
             {'a': 1, 'b': {'e': 100, 'f': 200}, 'g': 300}
+
+            Non-recursively update ``self`` from ``other`` without adding new keys. Note
+            that the second level dictionary is *replaced* by the new one, so the new 
+            keys are added implicitly.
+
+            >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
+            >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), add_keys=False)
+            {'a': 1, 'b': {'c': 5, 'e': 100}}
+
 
             Recursively update ``self`` from ``other``.
 
@@ -340,6 +408,15 @@ class qdict(dict):
             >>> my_dict = qdict(a=1, b=qdict(c=10, d=20))
             >>> my_dict.update(dict(b=dict(c=5, e=100), f=200), recursive=True, add_keys=False)
             {'a': 1, 'b': {'c': 5, 'd': 20}}
+            
+            It will not do anything if the ``other`` is not a dict instance.
+
+            >>> my_dict = qdict(a=1)
+            >>> my_dict.update(None)
+            {'a': 1}
+            >>> my_dict.update(1234)
+            {'a': 1}
+
 
         """
         if not isinstance(other, dict):
@@ -386,6 +463,8 @@ class ObjectDict(qdict):
         >>> my_dir['Bar']
         <class 'qtils.collections.Bar'>
     
+        See more usage examples in :ref:`tut_object_dict`.
+
     """
 
     def register(self, obj):
@@ -441,6 +520,7 @@ class QEnum(Enum):
         >>> MyEnum.values()
         ['hello', 'world']
 
+    See more usage examples in :ref:`tut_qenum`.
 
     """
 

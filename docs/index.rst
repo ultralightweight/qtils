@@ -1,8 +1,20 @@
-.. qtils documentation master file, created by
-   sphinx-quickstart on Fri Oct  4 20:15:21 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+..  This file is part of Ulra Light Weight Qtils.
 
+    Ulra Light Weight Qtils is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    Ulra Light Weight Qtils is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Ulra Light Weight Qtils. If not, see <https://www.gnu.org/licenses/lgpl>.
+
+
+.. _index:
 
 Welcome to Qtils 0.9.4 documentation!
 =======================================
@@ -12,7 +24,7 @@ Welcome to Qtils 0.9.4 documentation!
 Overview
 ----------
 
-Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Python coding even sweeter.
+Qtils - pronounced as cutieels - is a syntactic sugar library to make sweet Python coding even sweeter.
 
 
 Dedication
@@ -26,28 +38,28 @@ as a child.
 Quick links
 -------------
 
-- :ref:`Contents <toc>` 
+- :ref:`tut_index`
 
-- API Reference of the :mod:`qtils` module.
+- :ref:`apidoc_index`
 
-- :ref:`Examples and tutorials <tut_index>`
+- :ref:`Full Contents <toc>` 
 
 
 
 Features 
 ----------
 
-- Convenient collections :class:`qtils.collections.qdict`, :class:`qtils.collections.qlist` and :class:`qtils.collections.QEnum`
+- Convenient collections :class:`qdict <qtils.collections.qdict>`, :class:`qlist <qtils.collections.qlist>` and :class:`QEnum <qtils.collections.QEnum>`
 
-- Self-formatting object in :class:`qtils.formatting.PrettyObject`
+- Self-formatting object in :class:`PrettyObject <qtils.formatting.PrettyObject>`
 
-- Two-way formatter/parser for file sizes, for example '5.4 GB') in :class:`qtils.formatting.DataSize`
+- Two-way formatter/parser for file sizes, for example '5.4 GB' in :class:`DataSize <qtils.formatting.DataSize>`
 
-- Weak reference property decorator :func:`qtils.properties.weakproperty`
+- Weak reference property decorator :func:`weakproperty <qtils.properties.weakproperty>`
 
-- Cached property decorator :func:`qtils.properties.cachedproperty`
+- Cached property decorator :func:`cachedproperty <qtils.properties.cachedproperty>`
 
-- Class logger decorator :func:`qtils.log_utils.logged`
+- Class logger decorator :func:`logged <qtils.log_utils.logged>`
 
 - Common string transformations in :mod:`qtils.string_utils`
 
@@ -63,8 +75,8 @@ Installation
 
 
 
-Quick Examples
--------------------
+Examples
+---------
 
 
 .. code-block:: python
@@ -79,7 +91,6 @@ Quick Examples
 
 
     >>> class MyObject(PrettyObject):
-    ...     __pretty_format__ = PRETTY_FORMAT.BRIEF
     ...     __pretty_fields__ = [
     ...         'hello',
     ...         'answer',
@@ -89,7 +100,7 @@ Quick Examples
     ...         self.answer = answer
     >>> obj = MyObject('world', 42)
     >>> print(obj)
-    <MyObject object at ... hello='world', answer=42>
+    <__main__.MyObject object at ... hello='world', answer=42>
 
 
     >>> print(DataSize(123000))
@@ -119,7 +130,9 @@ Full Contents
    :maxdepth: 2
 
    tutorial/index
-   apidoc/qtils
+   devguide
+   apidoc/index
+
 
 
 
