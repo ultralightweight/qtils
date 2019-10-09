@@ -16,19 +16,89 @@ Working with collections
 Using `dot notation` to access dictionary elements
 ----------------------------------------------------
 
-for reading and writing dictionary elements
+Qdict allows reading and writing dictionary elements as if they were attributes.
 
 
 .. code-block:: python
 
-    >>> from qtils import qdict
+    >>> from qtils import *
 
-    >>> d = qdict(foo="hello", bar="world")
-    >>> d.foo = 1234
-    >>> d
-    {'foo': 1234, 'bar': 'world'}
-    >>> d.bar
+    >>> d = qdict(hello = "world")
+    >>> d.hello
     'world'
+    >>> d.answer = 42
+    >>> d['answer']
+    42
+    >>> d
+    {'hello': 'world', 'answer': 42}
+
+
+
+Dealing with keyword argument dictionaries
+-----------------------------------------------
+
+Accessing 
+
+.. code-block:: python
+
+    >>> from qtils import *
+    
+    >>> def foo(**kwargs): pass
+    
+
+
+Working with complex data from API endpoints in JSON/YAML
+---------------------------------------------------------------
+
+Data from an API endpoint can be marshalled into a ``qdict`` object tree, allowing convenient access 
+to objects within the response.
+
+Let's load up some memes from imgflip using and endpoint, and list what we got.
+(The response shown in the example below was altered for readibility reasons)
+
+
+.. code-block:: python
+
+    >>> import json
+    >>> from qtils import *
+
+    # Loading up memes from https://api.imgflip.com/get_memes 
+    # with requests to api_response variable with something like:
+    # api_response = requests.get(https://api.imgflip.com/get_memes).text
+    # The api_response will look something like this:
+    >>> api_response = """  
+    ... { 
+    ...   "success":true,
+    ...   "memes":[ 
+    ...     { 
+    ...       "name":"Distracted Boyfriend",
+    ...       "url":"https://i.imgflip.com/1ur9b0.jpg"
+    ...     },
+    ...     { 
+    ...       "name":"Drake Hotline Bling",
+    ...       "url":"https://i.imgflip.com/30b1gx.jpg"
+    ...     },
+    ...     { 
+    ...       "name":"Two Buttons",
+    ...       "url":"https://i.imgflip.com/1g8my4.jpg"
+    ...     }
+    ...   ]
+    ... }
+    ... """
+    
+    # Loading the data into a qdict tree.
+    >>> api_data = qdict.convert(json.loads(api_response))
+    
+    # The data from the API can be used as any other python object
+    >>> if api_data.success:
+    ...     for meme in api_data.memes:
+    ...         print( "{:<30}{}".format( meme.name, meme.url ) )
+    Distracted Boyfriend          https://i.imgflip.com/1ur9b0.jpg
+    Drake Hotline Bling           https://i.imgflip.com/30b1gx.jpg
+    Two Buttons                   https://i.imgflip.com/1g8my4.jpg
+    
+
+
 
 
 Caveats 
@@ -80,6 +150,7 @@ Keeping qdict subclass private variables accessible.
 
 
 
+.. _tut_qlist:
 
 :class:`qlist` usage examples
 ================================
@@ -126,11 +197,14 @@ Consider the following example:
 
 
 
+.. _tut_object_dict:
 
 :class:`ObjectDict` usage examples
 ===================================
 
 
+
+.. _tut_qenum:
 
 
 :class:`QEnum` usage examples

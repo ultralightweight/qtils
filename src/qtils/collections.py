@@ -43,6 +43,16 @@ from enum import Enum
 
 class qlist(list):
     """Simple list with convenience functions.
+
+    Example:
+
+        >>> l = qlist(['foo', 'bar'])
+        >>> l.get(3, "not found")
+        'not found'
+
+
+    See more usage examples in :ref:`tut_qlist`.
+
     """
 
 
@@ -123,6 +133,8 @@ class qdict(dict):
         >>> d.answer = 42
         >>> d
         {'foo': 'hello', 'bar': 'world', 'answer': 42}
+    
+    See more usage examples in :ref:`tut_qdict`.
 
     """
 
@@ -452,6 +464,8 @@ class ObjectDict(qdict):
         >>> my_dir['Bar']
         <class 'qtils.collections.Bar'>
     
+        See more usage examples in :ref:`tut_object_dict`.
+
     """
 
     def register(self, obj):
@@ -507,6 +521,7 @@ class QEnum(Enum):
         >>> MyEnum.values()
         ['hello', 'world']
 
+    See more usage examples in :ref:`tut_qenum`.
 
     """
 

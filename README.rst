@@ -92,8 +92,7 @@ Attribute dictionary
 
     >>> from qtils import *
 
-    >>> d = qdict()
-    >>> d.hello = "world"
+    >>> d = qdict(hello = "world")
     >>> d.hello
     'world'
     >>> d.answer = 42
