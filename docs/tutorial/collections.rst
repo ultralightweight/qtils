@@ -101,52 +101,149 @@ Let's load up some memes from imgflip using and endpoint, and list what we got.
 
 
 
-Caveats 
+Caveats
 ----------
 
-Keeping qdict subclass private variables accessible.
+Because :class:`qdict` uses the attribute access to allow access to items,
+the access to actual attributes becomes quite tricky and can result unexpected
+behaviour.
 
+This problem is not encoutered during normal use. However, if a new class is created
+to inhert from qdict, unexpected things will happen.
+
+ Consider the following example:
 
 .. code-block:: python
+    
+    # We create a new class based on qdict and declare a class attribute
+    # called `a`, a public instance attribute called `b` and a private instance attribute
+    # called `_c`
 
     >>> class MyDict(qdict):
     ...     a = 'initial value'
-    ...     def __init__(self, a, b):
+    ...     def __init__(self, a, b, c):
+    ...         # we attempt to overwrite the class attribute to make it an instance attribute
     ...         self.a = a
-    ...         self._b = b
+    ...         # we attempt to store data in self as an instance attribute
+    ...         self.b = b
+    ...         # we attempt to store data in a private instance variable
+    ...         self._c = c
     ...
-    >>> md = MyDict('foo', 42)
-    >>> md
-    {'a': 'foo'}
-    >>> md.a          # returns the class attribute
+    >>> md = MyDict('foo', 'bar', 42)
+
+    # all 'attributes' became values in our dictionary
+    >>> md                  
+    {'a': 'foo', 'b': 'bar', '_c': 42}
+    
+    # but when we try to read `a` it returns the class attribute
+    >>> md.a                
     'initial value'
-    >>> md._b
+    
+    # when we set 'a' as an instance attribute
+    >>> md.a = 'apple'      
+    
+    # but we have changed the value in the dictionary
+    >>> md                  
+    {'a': 'apple', 'b': 'bar', '_c': 42}
+    >>>
+    
+    # but accessing it still returns the class attribute
+    >>> md.a                
+    'initial value'
+    
+    # reading 'a' with the dictionary API returns the value
+    >>> md['a']             
+    'apple'
+    
+    # `b` seems to be working, but it is NOT an attribute
+    >>> md.b                
+    'bar'
+    
+    # it is a value in the dictionary
+    >>> md['b']             
+    'bar'
+    
+    # when we try to set 'b'
+    >>> md.b = 'cat'        
+    
+    # we are changing the value in the dictionary
+    >>> md['b']             
+    'cat'
+    
+    # Same thing applies to `_c`, it seems to be working, 
+    >>> md._c               
     42
-    >>> md.a = 'bar'
-    >>> md
-    {'a': 'bar'}
-    >>> md.a          # still returns the class attribute
-    'initial value'
+    
+    # still, it is a value in the dictionary
+    >>> md['_c']            
+    42
+
+
+To handle a scenario like this we have the ``__qdict_allow_attributes__`` attribute. When it's set
+to true, it will allow access to class attributes and private instance attributes (name starting with an
+underscore). Please note that there is a performance penalyt to this, because every write will have to 
+check if the name exists either as a class attribute or within the instances ``__dict__``. This means two
+dictionary lookups for every attribute write. 
+
+
+
+.. code-block:: python
+    
+    # We are using the same class as in the previous example.
 
     >>> class MyDict(qdict):
     ...     __qdict_allow_attributes__ = True
     ...     a = None
-    ...     def __init__(self, a, b):
+    ...     def __init__(self, a, b, c):
     ...         self.a = a
-    ...         self._b = b
+    ...         self.b = b
+    ...         self._c = c
     ...
-    >>> md = MyDict('foo', 42)
-    >>> md
-    {}
-    >>> md.a
+    >>> md = MyDict('foo', 'bar', 42)
+    
+    # Only `b` ended up in the dictionary, because it's not private.
+    >>> md                  
+    {'b': 'bar'}
+    
+    # reading `a` correctly returns value
+    >>> md.a                
     'foo'
-    >>> md._b
-    42
-    >>> md.a = 'bar'
-    >>> md
-    {}
-    >>> md.a
+    
+    # when we set 'a' as an instance attribute
+    >>> md.a = 'apple'      
+    
+    # we actually set an instance attribute
+    >>> md                  
+    {'b': 'bar'}
+    
+    # accessing correctly returns the value we set
+    >>> md.a                
+    'apple'
+    
+    # reading 'a' with the dictionary API raises KeyError
+    >>> md['a']             
+    Traceback (most recent call last):
+    ...
+    KeyError: 'a'
+    
+    # `b` seems to be working, but it's still NOT an attribute
+    >>> md.b                
     'bar'
+    
+    # it is a value in the dictionary
+    >>> md['b']             
+    'bar'
+    
+    # `_c` works as expected
+    >>> md._c               
+    42
+    
+    # and it is also NOT in the dictionary
+    >>> md['_c']            
+    Traceback (most recent call last):
+    ...
+    KeyError: '_c'
+
 
 
 
@@ -201,6 +298,30 @@ Consider the following example:
 
 :class:`ObjectDict` usage examples
 ===================================
+
+The main function of ObjectDict is 
+
+Registering a function with :meth:`ObjectDict.register` decorator:
+Registering a class with :meth:`ObjectDict.register` decorator:
+
+
+.. code-block:: python
+
+
+    >>> my_dir = ObjectDict()
+
+    >>> @my_dir.register
+    ... def foo(self): pass
+
+    >>> my_dir['foo']
+    <function foo at ...>
+
+
+    >>> @my_dir.register
+    ... class Bar(object): pass
+
+    >>> my_dir['Bar']
+    <class '__main__.Bar'>
 
 
 

@@ -193,14 +193,14 @@ class qdict(dict):
         ...
         >>> md = MyDict('foo', 42)
         >>> md
-        {'a': 'foo'}
+        {'a': 'foo', '_b': 42}
         >>> md.a          # returns the class attribute
         'initial value'
         >>> md._b
         42
         >>> md.a = 'bar'
         >>> md
-        {'a': 'bar'}
+        {'a': 'bar', '_b': 42}
         >>> md.a          # still returns the class attribute
         'initial value'
 
@@ -225,10 +225,9 @@ class qdict(dict):
         'bar'
 
         """
-        if key.startswith('_') or (
-                self.__qdict_allow_attributes__ and 
-                (key in self.__dict__ or key in self.__class__.__dict__)
-            ):
+        if (self.__qdict_allow_attributes__ and
+                (key.startswith('_') or key in self.__dict__ or key in self.__class__.__dict__)
+           ):
             object.__setattr__(self, key, value)
             return
         self[key] = value
