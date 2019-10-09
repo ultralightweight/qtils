@@ -39,14 +39,25 @@ from qtils import *
 # print(foo)
 
 
+# class MyObject(PrettyObject):
+#     # __pretty_format__ = PRETTY_FORMAT.BRIEF
+#     # __pretty_fields__ = [
+#     #     'hello',
+#     #     'answer',
+#     # ]
+#     def __init__(self, hello, answer):
+#         self.hello = hello
+#         self.answer = answer
+# obj = MyObject('world', 42)
+# print(obj)
+
+
 class MyObject(PrettyObject):
-    __pretty_format__ = PRETTY_FORMAT.BRIEF
     __pretty_fields__ = [
-        'hello',
-        'answer',
+        ":.",
     ]
-    def __init__(self, hello, answer):
-        self.hello = hello
-        self.answer = answer
-obj = MyObject('world', 42)
-obj
+    def __init__(self, a): self.a = a
+obj = MyObject('test')
+print(obj)
+
+

@@ -32,7 +32,7 @@ Formatting module
 This module contains formatting helpers.
 
 Attributes:
-    PRETTY_FORMAT: Format string presets to be used for :class:`PrettyObject` class attribute 
+    PRETTY_FORMAT: Format string presets to be used for :class:`PrettyObject` class attribute
         ``__pretty_format__``. Presets are accessible as attributes, for example ``PRETTY_FORMAT.FULL``.
 
         Available presets:
@@ -80,7 +80,7 @@ class _NAMeta(type):
 
     def __eq__(cls, other):
         """NA should be equal to itself and any subclasses of itself
-        
+
         >>> NA == NA()
         True
         >>> class MyNA(NA): pass
@@ -97,11 +97,11 @@ class _NAMeta(type):
 class NA(metaclass=_NAMeta):  # pylint: disable=too-few-public-methods
     """This class represents the **ValueNotAvailable** state.
 
-    This constant is meant to be used when :py:class:`None` has a meaningful value, 
+    This constant is meant to be used when :py:class:`None` has a meaningful value,
     and it can not be used to represent the state of a value being absent.
 
     Examples:
-        
+
         ``NA`` is always represented in a short format:
 
         >>> str(NA)
@@ -116,7 +116,7 @@ class NA(metaclass=_NAMeta):  # pylint: disable=too-few-public-methods
         True
         >>> NA is NA()
         True
-        
+
 
         Usage example:
 
@@ -166,16 +166,16 @@ __all__.append("PRETTY_FORMAT")
 
 # -----------------------------------------------------------------------------
 # PrettyObject
-# -----------------------------------------------------------------------------    
+# -----------------------------------------------------------------------------
 
 @__all__.register
 class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,broad-except
     """Object with pretty self printing ability
 
-    Self-formatting is implemented by overriding the :py:meth:`object.__str__` method. 
+    Self-formatting is implemented by overriding the :py:meth:`object.__str__` method.
 
     Example:
-        
+
         Simple example with printing fields of the object:
 
         >>> class MyObject(PrettyObject):
@@ -208,9 +208,9 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 
 
     Implementation Notes:
-    
-    A class level format string is created  from the ``__pretty_format__`` and ``__pretty_fields`` 
-    class attributes. This class-level format is saved in the ``__pretty_format_str__`` class 
+
+    A class level format string is created  from the ``__pretty_format__`` and ``__pretty_fields``
+    class attributes. This class-level format is saved in the ``__pretty_format_str__`` class
     attribute.
 
     Object formatting happens when :meth:`PrettyObject.__str__` is called, for example when
@@ -218,25 +218,25 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
     get values for all the fields in ``__pretty_fields__``. Then the class-level format string
     in ``__pretty_format_str__`` will be formatted to create the object's pretty string.
 
-    .. note:: 
+    .. note::
 
-        Because of the getattr calls during formatting, printing a PrettyObject() can 
-        cause side-effects in case properties that are executing calls in their getter 
+        Because of the getattr calls during formatting, printing a PrettyObject() can
+        cause side-effects in case properties that are executing calls in their getter
         functions are referred in the ``__pretty_fields__``.
 
     Use the following class level attributes in descendant classes to configure the formatting:
 
-    Attributes:    
+    Attributes:
         __pretty_format__ (str): Format string for the object to be used with :py:meth:`str.format`.
-            Defaults to ``PRETTY_FORMAT.FULL`` which is: 
+            Defaults to ``PRETTY_FORMAT.FULL`` which is:
             ``<{cls.__module__}.{cls.__name__} object at 0x{{__self_id__:02x}} {fields}>``
-            
+
             Values available for py:meth:`str.format` in the creation of the class-level format string:
 
             - ``cls``: Class which is being formatted
             - ``fields``: Format placeholders of the individual fields
 
-            Values available for py:meth:`str.format` at object level formatting. These fields needs to 
+            Values available for py:meth:`str.format` at object level formatting. These fields needs to
             be double escaped, for example: ``{{__self_id__}}``.
 
             - ``__self__``: Object instance being formatted
@@ -244,11 +244,11 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 
 
         __pretty_field_separator__ (str): Separator used to join the individual fields, defaults to ``', '``
-        
-        __pretty_fields__ (list): Object attribute names to be included when printing the objects. Default to None.
-            This attribute **must** be declared in descendant classes. 
 
-            List should contain attribute names. Each attribute with be read using ``getattr(self, name, NA)``, 
+        __pretty_fields__ (list): Object attribute names to be included when printing the objects. Default to None.
+            This attribute **must** be declared in descendant classes.
+
+            List should contain attribute names. Each attribute with be read using ``getattr(self, name, NA)``,
             please consider side-effects when listing properties with complicated getter functions.
 
             Advanced string formatting defined :pep:`3101` can be applied to each field.
@@ -259,10 +259,10 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
             Field format string             Description
             =============================== =========================================================================
             ``'my_field'``                  Format the field's value with :py:meth:`object.repr`, default behaviour.
-            ``'my_field:>10,.2f'``          Format string to be 10 digits wide and align to left, use ``,`` as 
+            ``'my_field:>10,.2f'``          Format string to be 10 digits wide and align to left, use ``,`` as
                                             thousand separator and use 2 digit precision.
-            ``'my_field!s'``                Use ``str(my_field)`` to format field value. This will return 
-                                            ``my_field=foo`` instead of ``my_field='foo'``. Note the missing single 
+            ``'my_field!s'``                Use ``str(my_field)`` to format field value. This will return
+                                            ``my_field=foo`` instead of ``my_field='foo'``. Note the missing single
                                             quotes around ``foo``
             =============================== =========================================================================
 
@@ -270,7 +270,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
     Examples:
 
         Returning :class:`NA` for non-existent fields:
-        
+
         >>> class MyObject(PrettyObject):
         ...     __pretty_fields__ = [
         ...         "non_existent",
@@ -283,7 +283,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         Exceptions encountered during formatting are printed as the value for the field.
         Please note that this can lead to problems with fields expecting a ``float`` or ``int`` value. However,
         exceptions during attribute reading should not happen in the first place.
-        
+
         >>> class MyObject(PrettyObject):
         ...     __pretty_fields__ = [
         ...         "foo",
@@ -295,6 +295,46 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         >>> print(obj)
         <qtils.formatting.MyObject object at ... foo=NameError("name 'non_existent' is not defined")>
 
+        Descendants of PrettyObject subclasses are inheriting parents' field configurations
+        by default.
+
+        >>> class BaseClass(PrettyObject):
+        ...     __pretty_fields__ = [
+        ...         "foo",
+        ...     ]
+        ...     def __init__(self, foo, bar):
+        ...         self.foo = foo
+        ...         self.bar = bar
+        ...
+        >>> print(BaseClass('hello', 'world'))
+        <qtils.formatting.BaseClass object at ... foo='hello'>
+        >>>
+        >>> class SubClassOne(BaseClass):
+        ...     pass
+        ...
+        >>> print(SubClassOne('hello', 'world'))
+        <qtils.formatting.SubClassOne object at ... foo='hello'>
+
+
+        Subclasses can overwrite inherited field configuration by defining a new field
+        configuration
+
+        >>> class SubClassTwo(BaseClass):
+        ...     __pretty_fields__ = [
+        ...         "bar",
+        ...     ]
+        >>> print(SubClassTwo('hello', 'world'))
+        <qtils.formatting.SubClassTwo object at ... bar='world'>
+
+        Or Subclasses can extend/alter parents field configuration using simple list
+        operations.
+
+        >>> class SubClassThree(BaseClass):
+        ...     __pretty_fields__ = BaseClass.__pretty_fields__ + [
+        ...         "bar",
+        ...     ]
+        >>> print(SubClassThree('hello', 'world'))
+        <qtils.formatting.SubClassThree object at ... foo='hello', bar='world'>
 
     """
 
@@ -303,9 +343,22 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
     __pretty_field_separator__ = ", "
 
 
-    @classmethod 
+    @classmethod
     def __parse_pretty_field_def(cls, field_def):
         """Parses a single field definition
+
+        Testing badly formatted field names
+
+        >>> class MyObject(PrettyObject):
+        ...     __pretty_fields__ = [
+        ...         "a:<asdf",
+        ...     ]
+        ...     def __init__(self, a): self.a = a
+        >>> obj = MyObject('test')
+        >>> print(obj)
+        Traceback (most recent call last):
+        ...
+        ValueError: Invalid format specifier
         """
         if '!' in field_def:
             field_def = field_def.split('!', 1)
@@ -321,7 +374,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
     @classmethod
     def __get_pretty_field_defs(cls):
         """Returns and caches parsed field definition array
-        
+
         Testing if everything works if no fields are defined.
 
         >>> class Obj(PrettyObject):
@@ -331,7 +384,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         >>> print(obj)
         <qtils.formatting.Obj object at ...>
         """
-        if getattr(cls, '__pretty_field_defs__', None) is None:
+        if cls.__dict__.get('__pretty_field_defs__', None) is None:
             fields = getattr(cls, '__pretty_fields__', None)
             if not fields:
                 fields = getattr(cls, '__slots__', None)
@@ -348,11 +401,8 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         Returns:
             return (str): Formattable string with field names
         """
-        if getattr(cls, '__pretty_format_str__', None) is None:
+        if cls.__dict__.get('__pretty_format_str__', None) is None:
             field_defs = cls.__get_pretty_field_defs()
-            if not field_defs:
-                cls.__pretty_format_str__ = False
-                return False
             fields = cls.__pretty_field_separator__.join(["{0}={{{0}{1}}}".format(*f) for f in field_defs])
             cls.__pretty_format_str__ = cls.__pretty_format__.format(cls=cls, fields=fields)
         return str(cls.__pretty_format_str__)
@@ -361,7 +411,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
     def __str__(self):
         field_defs = self.__get_pretty_field_defs()
         if not field_defs:
-            return super(PrettyObject, self).__repr__()
+            return super().__repr__()
         context = {"__self_id__": id(self), "__self__": self}
         for name, _ in field_defs:
             try:
@@ -372,7 +422,7 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
         return self.__get_pretty_format_str().format(**context)
 
 
-    __repr__ = __str__
+    # __repr__ = __str__
 
 
 # -----------------------------------------------------------------------------
@@ -380,9 +430,9 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
 # -----------------------------------------------------------------------------
 
 @__all__.register   # pylint: disable=invalid-name
-class DATA_UNIT_SYSTEM(Enum): 
+class DATA_UNIT_SYSTEM(Enum):
     """Data Unit Systems
-    
+
     Attributes:
         BINARY: Use powers of 2 for magnitudes
         METRIC: Use powers of 10 for magnitudes
@@ -428,7 +478,7 @@ _DATASIZE_PARSER = re.compile(r'^([\d.,]+)\s*([bkmgtpeyz]?)')
 
 _DATASIZE_SUFFIX_TO_MAGNITUDE = tuple(map(
     lambda system: dict(map(
-        lambda e: (e[1][0][0].lower()[:1], e[0]), 
+        lambda e: (e[1][0][0].lower()[:1], e[0]),
         enumerate(system)
     )),
     _DATASIZE_SUFFIXES_AND_PRECISIONS
@@ -446,25 +496,25 @@ _DATASIZE_MAGNITUDE_MULTIPLIER = (
 
 @__all__.register
 class DataSize(int):
-    """Integer object representing data size with two-way conversion ability. 
+    """Integer object representing data size with two-way conversion ability.
 
-    It stores the data size in bytes as int. It can display the value in different 
-    units. By default it uses the most suitable unit automatically. This behaviour 
+    It stores the data size in bytes as int. It can display the value in different
+    units. By default it uses the most suitable unit automatically. This behaviour
     can be changed by calling the :meth:`DataSize.format` directly, or by changing
     the default unit in the ``DEFAULT_UNIT`` class attribute.
 
     This class supports different systems of units. It supports the ``BINARY``
-    system in which a magnitude is ``2**10=1024`` bytes, and the ``METRIC`` system in which 
+    system in which a magnitude is ``2**10=1024`` bytes, and the ``METRIC`` system in which
     a magnitude is ``10**3=1000`` bytes. By default it uses the ``METRIC`` system. Read more
-    about the topic in the  
+    about the topic in the
     `Units of information Wikipedia article <https://en.wikipedia.org/wiki/Units_of_information>`_.
 
 
     Examples:
-        
+
         Pretty printing data size values with automatic unit and
         precision detection:
-        
+
         >>> print(DataSize(123000))
         123 k
         >>> print(DataSize(123456000))
@@ -531,7 +581,7 @@ class DataSize(int):
         500000
         >>> print(size - 500000)
         1.0 M
-    
+
         Throws :py:class:`ValueError` exception if data can not be parsed:
 
         >>> DataSize('invalid size data')
@@ -544,16 +594,16 @@ class DataSize(int):
     :meth:`DataSize.format` method, or by changing the defaults set
     by class attributes.
 
-    
+
     Attributes:
 
-        DEFAULT_UNIT_SYSTEM (:class:`DATA_UNIT_SYSTEM`): Binary or Metric system to use, defaults 
+        DEFAULT_UNIT_SYSTEM (:class:`DATA_UNIT_SYSTEM`): Binary or Metric system to use, defaults
             to ``DATA_UNIT_SYSTEM.METRIC``
 
-        DEFAULT_UNIT (str): Sets the default unit to use (see more in :meth:`DataSize.format` 
+        DEFAULT_UNIT (str): Sets the default unit to use (see more in :meth:`DataSize.format`
             documentation.). ``None`` means automatic unit choice.
 
-        DEFAULT_UNIT_FORMAT (int): Sets the default unit format (see more in :meth:`DataSize.format` 
+        DEFAULT_UNIT_FORMAT (int): Sets the default unit format (see more in :meth:`DataSize.format`
             documentation.)
 
         DEFAULT_NUMBER_FORMAT (str): Sets the default format string
@@ -570,7 +620,7 @@ class DataSize(int):
 
     def __new__(cls, value, system=None):
         """Parses input value as file size
-    
+
         Testing error handling
 
         >>> DataSize('0..1')
@@ -615,20 +665,20 @@ class DataSize(int):
 
 
     def format(self, unit: str = None, precision: int = None, unit_format: object = None, # pylint: disable=too-many-arguments
-               number_format: str = None, system: DATA_UNIT_SYSTEM = None): 
+               number_format: str = None, system: DATA_UNIT_SYSTEM = None):
         """Returns a formatted data size in str
-        
+
         Arguments:
-            
+
             unit (str,int): Unit to use, defaults to ``None``
 
                 - If None, the most suitable unit based on the size will be choosen automatically.
 
-                - Accepts a string with one or more letter SI prefix. For example ``'k'`` 
+                - Accepts a string with one or more letter SI prefix. For example ``'k'``
                   or ``'kilo'``, ``'G'`` or ``'giga'``, etc.
 
-                - Accepts an integer referring to the SI magnitude, with ``0`` meaning *bytes* 
-                  and ``8`` meaning *yottabytes*. 
+                - Accepts an integer referring to the SI magnitude, with ``0`` meaning *bytes*
+                  and ``8`` meaning *yottabytes*.
 
 
             precision (int): How many fraction digits to display after the integers. Defaults to ``None``
@@ -654,19 +704,19 @@ class DataSize(int):
 
                 ``None``: Use value from ``DataSize.DEFAULT_NUMBER_FORMAT`` (default behaviour)
 
-                Accepts any valid python format string. 
+                Accepts any valid python format string.
 
                 - File size converted to the requested magnitude is supplied as the first positional argument
-                - Unit as string is supplied as the second positional argument. 
+                - Unit as string is supplied as the second positional argument.
                 - Precision is supplied as ``precision`` keyword argument.
 
                 Default format in ``DataSize.DEFAULT_NUMBER_FORMAT`` is: ``{:.{precision}f} {:}``
 
             system (:class:`DATA_UNIT_SYSTEM`): Unit system to use for formatting. Accepts integers or
-                values from the :class:`DATA_UNIT_SYSTEM` Enum. If ``None`` it will use the default value 
+                values from the :class:`DATA_UNIT_SYSTEM` Enum. If ``None`` it will use the default value
                 from ``DataSize.DEFAULT_UNIT_SYSTEM``.
 
-    
+
         Examples:
 
             Displaying the same :class:`DataSize` with different formatting
@@ -721,11 +771,11 @@ class DataSize(int):
             Traceback (most recent call last):
             ...
             AttributeError: Unknown DataSize unit: 'l'
-            
-            
+
+
 
             Changing the default formatting settings
-            
+
             >>> sizes = [
             ...     DataSize('208 k'),
             ...     DataSize('1.5 M'),
@@ -763,12 +813,13 @@ class DataSize(int):
                516.891 MiB
              1,525.879 MiB
 
-            # resetting the default defaults.
+            Resetting ``DataSize.DEFAULT_*`` to built-in defaults
+
             >>> DataSize.DEFAULT_UNIT_SYSTEM = DATA_UNIT_SYSTEM.METRIC
-            >>> DataSize.DEFAULT_UNIT = None                                 
-            >>> DataSize.DEFAULT_UNIT_FORMAT = 0                             
+            >>> DataSize.DEFAULT_UNIT = None
+            >>> DataSize.DEFAULT_UNIT_FORMAT = 0
             >>> DataSize.DEFAULT_NUMBER_FORMAT = "{:.{precision}f} {:}"
-            
+
         """
         system = self.DEFAULT_UNIT_SYSTEM if system is None else system
         if not isinstance(system, DATA_UNIT_SYSTEM):
@@ -800,11 +851,14 @@ class DataSize(int):
     def __add__(self, other):
         return DataSize(super().__add__(other))
 
+
     def __sub__(self, other):
         return DataSize(super().__sub__(other))
 
+
     def __mul__(self, other):
         return DataSize(int(self)*other)
+
 
     def __truediv__(self, other):
         """
