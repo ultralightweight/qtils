@@ -28,31 +28,23 @@
     :target: https://github.com/ultralightweight/qtils/issues
     :alt: GitHub issues
 
-
+=========
 Overview
-----------
+=========
 
 Qtils - pronounced as cutieels - is a syntactic sugar library to make sweet Python coding even sweeter.
 
 
 Dedication
--------------
+------------
+
 This library is dedicated to **Pál Hubai, Surfy**, my programming Master who spent countless hours answering
 my questions, providing code examples, and guiding me towards the right approach when I was learning programming
 as a child.
 
 
-
-Documentation
--------------
-
-- Documentation is available at https://qtils.readthedocs.io/en/latest/
-
-- See examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`_
-
-
 Features 
-----------
+------------
 
 - Convenient collections `qdict <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.collections.qdict>`_, `qlist <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.collections.qlist>`_ and `QEnum <https://qtils.readthedocs.io/en/latest/apidoc/qtils.html#qtils.collections.QEnum>`_
 
@@ -70,19 +62,57 @@ Features
 
 
 
+Resources
+------------
+
+- Documentation is `available online on ReadTheDocs.io <https://qtils.readthedocs.io/en/latest/>`_
+
+- See short examples below
+- See more examples  in the `usage examples and tutorials section <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`_
+
+- Sources are available on `GitHub <https://github.com/ultralightweight/qtils>`_
+  
+- Installer is available on `PyPI <https://pypi.org/project/qtils/>`_
+
+- Migrating from ``sutils``? See the `sutils migration guide <https://qtils.readthedocs.io/en/latest/migration.html>`_.
+
+
+=======
+Usage
+=======
+
+
 Installation 
 --------------
 
-Qtils is available in PyPI:
+
+Installing the latest release from PyPI using ``pip``:
 
 .. code-block:: bash
 
     $ pip install qtils
 
 
+Installing the latest release from PyPI and saving it to ``requirements.txt`` using ``pip``:
+
+.. code-block:: bash
+
+    $ pip install -s requirements.txt qtils
+
+
+
+Installing the developer version:
+
+.. code-block:: bash
+
+    $ pip install -e https://github.com/ultralightweight/qtils.git#dev
+
+
+
+.. _short_examples:
 
 Examples
--------------------
+-----------
 
 
 Attribute dictionary
@@ -99,7 +129,10 @@ Attribute dictionary
     >>> d['answer']
     42
 
-    
+See more examples in the `qdict tutorial <https://qtils.readthedocs.io/en/latest/tutorial/collections.html#qdict-usage-examples>`_.
+
+
+
 Objects with self-formatting capability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -116,6 +149,9 @@ Objects with self-formatting capability
     >>> obj = MyObject('world', 42)
     >>> print(obj)
     <__main__.MyObject object at ... hello='world', answer=42>
+
+
+See more examples in the `PrettyObject tutorial <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#self-formatting-objects-using-prettyobject>`_.
 
 
 Cached property
@@ -142,6 +178,8 @@ Cached property
     Deep Thought is thinking
     42
 
+See more examples in the `properties module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#cachedproperty-usage-examples>`_.
+
 
 Formatting and parsing file sizes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -154,6 +192,26 @@ Formatting and parsing file sizes
     1450000
     >>> DataSize('1T').format(unit="k", number_format="{:,.0f} {}")
     '1,000,000,000 k'
+
+
+See more examples in the `formatting module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#formatting-and-parsing-file-sizes-using-datasize>`_.
+
+
+Dynamic module exports
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+    >>> from qtils import qlist
+
+    >>> __all__ = qlist()
+
+    >>> @__all__.register
+    ... class Foo(object):
+    ...     pass
+
+
+See more examples in the `qlist tutorial <https://qtils.readthedocs.io/en/latest/tutorial/collections.html#qlist-usage-examples>`_.
 
 
 
@@ -169,16 +227,23 @@ Adding a class-private logger
     ...
 
 
-See more examples and usage in `examples and tutorials <https://qtils.readthedocs.io/en/latest/tutorial/index.html>`_.
+See more examples in the `logging module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/logging.html>`_.
 
 
+=============
 Contribution
---------------
+=============
 
-Pull requests are always welcome.
+- Pull requests are more than welcome! 
+
+- See the `Developer's Guide <https://qtils.readthedocs.io/en/latest/devguide.html>`_ on how to get started with qtils development. 
 
 
+========
+Licence
+========
 
+This library is available under `GNU Lesser General Public Licence v3 <https://www.gnu.org/licenses/lgpl>`_.
 
 
 

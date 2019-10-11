@@ -132,6 +132,7 @@ Full Contents
    tutorial/index
    devguide
    apidoc/index
+   migration
 
 
 
