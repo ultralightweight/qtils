@@ -27,6 +27,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries",
 ]
+LICENCE="License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"
 
 
 # ---------------------------------------------------------------------------------------
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     setup(
         name=NAME,
         description=DESCRIPTION,
-        license="License :: MIT",
+        license=LICENCE,
         url=SCM_URL,
         version=VERSION,
         author=AUTHOR,
