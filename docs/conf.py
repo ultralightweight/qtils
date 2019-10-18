@@ -22,10 +22,10 @@ copyright = '2019, Daniel Kovacs <@neonihil>'
 author = 'Daniel Kovacs <@neonihil>'
 
 # The short X.Y version
-version = '0.8'
+version = '0.9.5'
 
 # The full version, including alpha/beta/rc tags
-release = '0.8'
+release = '0.9.5'
 
 
 # -- General configuration ---------------------------------------------------

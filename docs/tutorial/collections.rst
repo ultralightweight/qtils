@@ -100,16 +100,14 @@ Let's load up some memes from imgflip using and endpoint, and list what we got.
 
 
 
-
 Caveats
 ----------
 
-Because :class:`qdict` uses the attribute access to allow access to items,
-the access to actual attributes becomes quite tricky and can result unexpected
-behaviour.
+Because :class:`qdict` uses the attribute access to allow access to items, the access to actual 
+attributes becomes quite tricky and can result in unexpected behaviour.
 
-This problem is not encoutered during normal use. However, if a new class is created
-to inhert from qdict, unexpected things will happen.
+This problem is not encoutered during normal use. However, if a new class is to be created to 
+inhert from qdict, unexpected things will happen.
 
  Consider the following example:
 
