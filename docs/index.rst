@@ -44,6 +44,7 @@ Quick links
 
 - :ref:`Full Contents <toc>` 
 
+- :ref:`migration_from_sutils`
 
 
 Features 
@@ -116,7 +117,9 @@ See more examples and usage in :ref:`examples and tutorials <tut_index>`.
 Contribution
 -------------------
 
-PullRequests are always welcome.
+- Pull requests are always welcome!
+- Please have a look at the :ref:`developer guide <devguide>` to get started.
+
 
 
 
