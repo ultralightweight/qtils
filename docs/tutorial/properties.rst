@@ -279,6 +279,8 @@ A property that caches return value of first ``get()``
 
 .. code-block:: python 
 
+    >>> from qtils import cachedproperty
+
     >>> class DeepThought(object):
     ...     @cachedproperty
     ...     def answer_to_life_the_universe_and_everything(self):
