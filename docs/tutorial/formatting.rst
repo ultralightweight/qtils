@@ -110,17 +110,123 @@ tabs:
 Formatting and parsing file sizes using :class:`DataSize`
 ============================================================
 
+Integer object representing data size with two-way conversion ability.
+
+It stores the data size in bytes as int. It can display the value in different
+units. By default it uses the most suitable unit automatically. This behaviour
+can be changed by calling the :meth:`DataSize.format` directly, or by changing
+the default unit in the ``DEFAULT_UNIT`` class attribute.
+
+This class supports different systems of units. It supports the ``BINARY``
+system in which a magnitude is ``2**10=1024`` bytes, and the ``METRIC`` system in which
+a magnitude is ``10**3=1000`` bytes. By default it uses the ``METRIC`` system. Read more
+about the topic in the
+`Units of information Wikipedia article <https://en.wikipedia.org/wiki/Units_of_information>`_.
+
+
+
+Pretty printing data size values with automatic unit and
+precision detection:
+
+.. code-block:: python
+
+    >>> print(DataSize(123000))
+    123 k
+    >>> print(DataSize(123456000))
+    123.5 M
+    >>> print(DataSize(23*10**8))
+    2.30 G
+    >>> print(DataSize(1000**8))
+    1.00 Y
+
+
+Parsing data sizes from strings using the ``METRIC`` unit system (default
+behaviour):
+
+.. code-block:: python
+
+    >>> DataSize('256')
+    256
+    >>> DataSize('1.45 megabytes')
+    1450000
+    >>> DataSize('23.3G')
+    23300000000
+    >>> DataSize('1 T')
+    1000000000000
+    >>> DataSize('1,123,456.789 MB')
+    1123456789000
+
+
+Parsing data sizes using the ``BINARY`` unit system:
+
+.. code-block:: python
+
+    >>> DataSize('1.45 mebibytes')
+    1520435
+    >>> DataSize('23.3gib')
+    25018184499
+    >>> DataSize('1 T', system=DATA_UNIT_SYSTEM.BINARY)
+    1099511627776
+    >>> DataSize('1,123,456.789 MB', system=0)
+    1178029825982
+
+
+Comparison of the ``BINARY`` and the ``METRIC`` unit systems:
+
+.. code-block:: python
+
+    >>> binary_1k = DataSize("1 KiB")
+    >>> metric_1k = DataSize("1 kB")
+    >>> binary_1k
+    1024
+    >>> metric_1k
+    1000
+    >>> binary_1k.format(system=DATA_UNIT_SYSTEM.BINARY)
+    '1 K'
+    >>> metric_1k.format(system=DATA_UNIT_SYSTEM.BINARY)
+    '1000 b'
+
+
+:class:`DataSize` works as a regular ``int``:
+
+.. code-block:: python
+
+    >>> size = DataSize('1 M') + DataSize('500k')
+    >>> size
+    1500000
+    >>> print(size)
+    1.5 M
+    >>> size * 2.5
+    3750000
+    >>> print(size * 2.5)
+    3.8 M
+    >>> size / 3
+    500000
+    >>> print(size - 500000)
+    1.0 M
+
+
+Throws :py:class:`ValueError` exception if data can not be parsed:
+
+.. code-block:: python
+
+    >>> DataSize('invalid size data')
+    Traceback (most recent call last):
+    ...
+    ValueError: Invalid data size literal: 'invalid size data'
 
 
 
 .. _tut_values:
 
-Working with values
-======================
+
+Working with "Not Available" values
+=====================================
 
 
 A value to represent `not available`: ``NA``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------
+
 
 What happens if None is actually a meaningful value, but you need to model a situation when even None 
 wasn't supplied? I know what you think... why would anybody end up in a situation like that? I agree, but 

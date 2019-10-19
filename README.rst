@@ -52,13 +52,13 @@ Features
 
 - Two-way formatter/parser for file sizes, for example '5.4 GB', in `DataSize <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#formatting-and-parsing-file-sizes-using-datasize>`_
 
-- Weak reference property decorator `weakproperty <ttps://qtils.readthedocs.io/en/latest/tutorial/properties.html#weakproperty-usage-examples>`_
+- Weak reference property decorator `weakproperty <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#weakproperty-usage-examples>`_
 
 - Cached property decorator `cachedproperty <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#cachedproperty-usage-examples>`_
 
-- Class logger decorator `logged <https://qtils.readthedocs.io/en/latest/tutorial/log_utils.html>`_
+- Class logger decorator `logged <https://qtils.readthedocs.io/en/latest/apidoc/qtils.log_utils.html#qtils.log_utils.logged>`_
 
-- Common string transformations in `qtils.string_utils <https://qtils.readthedocs.io/en/latest/tutorial/string_utils.html>`_
+- Common string transformations in `qtils.string_utils <https://qtils.readthedocs.io/en/latest/apidoc/qtils.string_utils.html>`_
 
 
 Resources
