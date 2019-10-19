@@ -52,18 +52,17 @@ Features
 
 - Two-way formatter/parser for file sizes, for example '5.4 GB', in `DataSize <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#formatting-and-parsing-file-sizes-using-datasize>`_
 
-- Weak reference property decorator `weakproperty <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.weakproperty>`_
+- Weak reference property decorator `weakproperty <ttps://qtils.readthedocs.io/en/latest/tutorial/properties.html#weakproperty-usage-examples>`_
 
-- Cached property decorator `cachedproperty <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.cachedproperty>`_
+- Cached property decorator `cachedproperty <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#cachedproperty-usage-examples>`_
 
-- Class logger decorator `logged <https://qtils.readthedocs.io/en/latest/apidoc/qtils.log_utils.html#qtils.log_utils.logged>`_
+- Class logger decorator `logged <https://qtils.readthedocs.io/en/latest/tutorial/log_utils.html>`_
 
-- Common string transformations in `qtils.string_utils <https://qtils.readthedocs.io/en/latest/apidoc/qtils.string_utils.html>`_
+- Common string transformations in `qtils.string_utils <https://qtils.readthedocs.io/en/latest/tutorial/string_utils.html>`_
 
 
 Resources
 ------------
-
 
 - Sources are available on `GitHub <https://github.com/ultralightweight/qtils>`_
   
@@ -73,16 +72,15 @@ Resources
 
 - Documentation is `available online on ReadTheDocs <https://qtils.readthedocs.io/en/latest/>`_
 
-- Migrating from ``sutils``? See the `sutils migration guide <https://qtils.readthedocs.io/en/latest/migration.html>`_
+- Migrating from ``sutils``? See the `sutils migration guide here <https://qtils.readthedocs.io/en/latest/migration.html>`__.
 
-- Is something missing? Please see the contribut  the `Developer's guide <https://qtils.readthedocs.io/en/latest/devguide.html>`_
-
-
+- Contributions are always welcome. Please see the `Developer's guide <https://qtils.readthedocs.io/en/latest/devguide.html>`__ on getting started.
 
 
-=======
-Usage
-=======
+
+================
+Getting Started
+================
 
 
 Installation 
@@ -112,8 +110,6 @@ Installing the latest pre-release from GitHub:
 
 
 
-.. _short_examples:
-
 Examples
 -----------
 
@@ -133,7 +129,7 @@ Attribute dictionary
     42
 
 
-See more examples in the `qdict tutorial <https://qtils.readthedocs.io/en/latest/tutorial/collections.html#qdict-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.collections.html#qtils.collections.qdict>`_.
+See more examples in the `qdict tutorial <https://qtils.readthedocs.io/en/latest/tutorial/collections.html#qdict-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.collections.html#qtils.collections.qdict>`__.
 
 
 Objects with self-formatting capability
@@ -154,7 +150,7 @@ Objects with self-formatting capability
     <__main__.MyObject object at ... hello='world', answer=42>
 
 
-See more examples in the `PrettyObject tutorial <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#self-formatting-objects-using-prettyobject>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.formatting.html#qtils.formatting.PrettyObject>`_
+See more examples in the `PrettyObject tutorial <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#self-formatting-objects-using-prettyobject>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.formatting.html#qtils.formatting.PrettyObject>`__
 
 Cached property
 ~~~~~~~~~~~~~~~~~~
@@ -180,7 +176,7 @@ Cached property
     Deep Thought is thinking
     42
 
-See more examples in the `cachedproperty tutorial <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#cachedproperty-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.cachedproperty>`_.
+See more examples in the `cachedproperty tutorial <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#cachedproperty-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.cachedproperty>`__.
 
 
 
@@ -211,7 +207,7 @@ Weak reference property
     >>>
 
 
-See more examples in the `weakproperty tutorial <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#weakproperty-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.weakproperty>`_.
+See more examples in the `weakproperty tutorial <https://qtils.readthedocs.io/en/latest/tutorial/properties.html#weakproperty-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.weakproperty>`__.
 
 
 Formatting and parsing file sizes
@@ -227,7 +223,7 @@ Formatting and parsing file sizes
     '1,000,000,000 k'
 
 
-See more examples in the `formatting module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#formatting-and-parsing-file-sizes-using-datasize>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.formatting.html#qtils.formatting.DataSize>`_.
+See more examples in the `formatting module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/formatting.html#formatting-and-parsing-file-sizes-using-datasize>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.formatting.html#qtils.formatting.DataSize>`__.
 
 
 Dynamic module exports
@@ -244,7 +240,7 @@ Dynamic module exports
     ...     pass
 
 
-See more examples in the `qlist tutorial <https://qtils.readthedocs.io/en/latest/tutorial/collections.html#qlist-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.collections.html#qtils.collections.qlist>`_.
+See more examples in the `qlist tutorial <https://qtils.readthedocs.io/en/latest/tutorial/collections.html#qlist-usage-examples>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.collections.html#qtils.collections.qlist>`__.
 
 
 
@@ -260,16 +256,14 @@ Adding a class-private logger
     ...
 
 
-See more examples in the `logging module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/log_utils.html>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.log_utils.html#qtils.log_utils.logged>`_.
+See more examples in the `logging module tutorial <https://qtils.readthedocs.io/en/latest/tutorial/log_utils.html>`_, see the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.log_utils.html#qtils.log_utils.logged>`__.
 
 
 =============
 Contributing
 =============
 
-- Pull requests are more than welcome! 
-
-- See the `Developer's Guide <https://qtils.readthedocs.io/en/latest/devguide.html>`_ on getting started with qtils development. 
+Pull requests are always welcome! Please see the `Developer's Guide <https://qtils.readthedocs.io/en/latest/devguide.html>`__ on getting started with qtils development. 
 
 
 ========
