@@ -28,6 +28,13 @@
     :target: https://github.com/ultralightweight/qtils/issues
     :alt: GitHub issues
 
+.. image:: https://img.shields.io/pypi/dm/qtils.svg
+    :target: https://pypistats.org/packages/qtils
+
+.. image:: https://img.shields.io/pypi/l/qtils.svg
+    :target: https://github.com/ultralightweight/qtils/blob/master/LICENSE
+
+
 =========
 Overview
 =========
