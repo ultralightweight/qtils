@@ -100,8 +100,8 @@ Creating table-like formatting using tab ``\\t`` as field separator and fixed wi
 
 
 tabs:
-	
-					
+    
+                    
 
 
 
@@ -130,7 +130,7 @@ precision detection:
 
 .. code-block:: python
 
-	>>> from qtils import DataSize
+    >>> from qtils import DataSize
 
     >>> print(DataSize(123000))
     123 k
@@ -163,7 +163,7 @@ Parsing data sizes using the ``BINARY`` unit system:
 
 .. code-block:: python
 
-	>>> from qtils import DATA_UNIT_SYSTEM
+    >>> from qtils import DATA_UNIT_SYSTEM
 
     >>> DataSize('1.45 mebibytes')
     1520435
