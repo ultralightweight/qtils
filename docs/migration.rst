@@ -69,6 +69,46 @@ Regex for find and replace::
 
 
 --------------
+qdict
+--------------
+
+
+Change old API::
+
+.. code-block:: python
+
+    qd = qdict()
+    qdict.update(source, convert_to_qdict=True)
+
+To new API::
+
+.. code-block:: python
+
+    qd = qdict()
+    qdict.update(source, convert=True)
+
+
+Regex for find and replace::
+
+    # find: 
+    convert_to_qdict=
+
+    # replace with:
+    convert=
+
+
+
+.. TODO:: Expand me!
+
+Explicitly allow access to attributes in `qdict` derived classes
+
+`__qdict_allow_attributes__`
+
+
+
+
+
+--------------
 Logging
 --------------
 
@@ -126,3 +166,30 @@ Regex for find and replace::
 
 
 
+
+
+--------------
+module_name
+--------------
+
+
+Change old API::
+
+.. code-block:: python
+
+    pass
+
+To new API::
+
+.. code-block:: python
+
+    pass
+
+
+Regex for find and replace::
+
+    # find: 
+    pass
+
+    # replace with:
+    pass
