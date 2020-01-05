@@ -165,6 +165,22 @@ __all__.append("PRETTY_FORMAT")
 
 
 # -----------------------------------------------------------------------------
+# PrettyFormatError
+# -----------------------------------------------------------------------------
+
+class PrettyFormatError(Exception):
+
+    def __init__(self, obj, fmt, context, exc):
+        self.obj = obj
+        self.fmt = fmt
+        self.context = context
+        self.exc = exc
+
+    def __str__(self):
+        return f"PrettyObject failed to format object {object.__repr__(self.obj)} using format string: '{self.fmt}' and context: {self.context} due to exception: {self.exc.__class__.__name__}: {self.exc}"
+
+
+# -----------------------------------------------------------------------------
 # PrettyObject
 # -----------------------------------------------------------------------------
 
@@ -419,7 +435,11 @@ class PrettyObject(): # pylint: disable=too-few-public-methods,line-too-long,bro
             except Exception as exc:
                 value = exc
             context[name] = value
-        return self.__get_pretty_format_str().format(**context)
+        try:
+            fmt = self.__get_pretty_format_str()
+            return fmt.format(**context)
+        except Exception as exc:
+            raise PrettyFormatError(self, fmt, context, exc)
 
 
     # __repr__ = __str__
@@ -873,9 +893,6 @@ class DataSize(int):
         2
         """
         return DataSize(super().__mod__(other))
-
-
-
 
 
 
