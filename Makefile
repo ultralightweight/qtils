@@ -251,6 +251,7 @@ build:: dist
 
 docs:: deps-docs
 	source activate && sphinx-build -M html docs/ $(BUILD_DIR)/docs/
+	source activate && rstcheck README.rst
 
 # -----------------------------------------------------------------------
 # apidocs

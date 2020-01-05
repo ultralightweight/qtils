@@ -275,4 +275,31 @@ In the second example we use the weakproperty decorator to create the child.pare
 =========================================
 
 
-- A property that caches return value of first ``get()``
+A property that caches return value of first ``get()``
+
+.. code-block:: python 
+
+    >>> from qtils import cachedproperty
+
+    >>> class DeepThought(object):
+    ...     @cachedproperty
+    ...     def answer_to_life_the_universe_and_everything(self):
+    ...         print('Deep Thought is thinking')
+    ...         # Deep Thought: Spends a period of 7.5 million years
+    ...         # calculating the answer
+    ...         return 42
+    ...
+    >>> deep_thougth = DeepThought()
+    >>> deep_thougth.answer_to_life_the_universe_and_everything     # first call, getter is called
+    Deep Thought is thinking
+    42
+    >>> deep_thougth.answer_to_life_the_universe_and_everything     # second call, getter is not called
+    42
+    >>> del deep_thougth.answer_to_life_the_universe_and_everything # removing cached value
+    >>> deep_thougth.answer_to_life_the_universe_and_everything     # getter is called again
+    Deep Thought is thinking
+    42
+
+See the API reference `here <https://qtils.readthedocs.io/en/latest/apidoc/qtils.properties.html#qtils.properties.cachedproperty>`__.
+
+
