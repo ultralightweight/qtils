@@ -820,6 +820,9 @@ class DataSize(int):
             >>> DataSize.DEFAULT_UNIT_FORMAT = 0
             >>> DataSize.DEFAULT_NUMBER_FORMAT = "{:.{precision}f} {:}"
 
+            >>> print(DataSize(0))
+            0 b
+
         """
         system = self.DEFAULT_UNIT_SYSTEM if system is None else system
         if not isinstance(system, DATA_UNIT_SYSTEM):
@@ -828,7 +831,7 @@ class DataSize(int):
         unit_format = unit_format or self.DEFAULT_UNIT_FORMAT
         number_format = number_format or self.DEFAULT_NUMBER_FORMAT
         if unit is None:
-            magnitude = int(math.log(int(self), _DATASIZE_MAGNITUDE_MULTIPLIER[system.value]))
+            magnitude = int(math.log(int(self), _DATASIZE_MAGNITUDE_MULTIPLIER[system.value])) if self != 0 else 0
         elif isinstance(unit, int):
             magnitude = unit
         else:
@@ -873,9 +876,6 @@ class DataSize(int):
         2
         """
         return DataSize(super().__mod__(other))
-
-
-
 
 
 
