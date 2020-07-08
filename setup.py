@@ -27,7 +27,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries",
 ]
-LICENCE="License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"
+LICENCE="LGPLv3"
 
 
 # ---------------------------------------------------------------------------------------
