@@ -182,7 +182,7 @@ deps-docs:: $(VIRTUALENV_HOME)/deps-docs
 # -----------------------------------------------------------------------
 
 lint:: deps-test
-	source activate && pylint $(PACAKGE_SOURCES)/
+	source activate && pylint $(PACAKGE_SOURCES)/qtils
 
 
 # -----------------------------------------------------------------------
@@ -209,7 +209,7 @@ test-e2e:: deps-test
 
 .PHONY: test
 test:: deps-test
-	source activate && pylint $(PACAKGE_SOURCES)/
+	source activate && pylint $(PACAKGE_SOURCES)/qtils
 	source activate && pytest --cov $(PACAKGE_SOURCES)/ $(PACAKGE_SOURCES)/ $(PACKAGE_TEST)/ docs/ README.rst
 
 
