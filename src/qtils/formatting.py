@@ -75,7 +75,8 @@ __all__ = qlist()
 class _NAMeta(type):
     __repr__ = lambda s: "NA"
     __str__ = lambda s: "??"
-
+    __bool__ = lambda s: False
+    
     __instance = None
 
     def __eq__(cls, other):
@@ -655,8 +656,8 @@ class DataSize(int):
             size = groups[0].replace(',', '')
             try:
                 size = float(size)
-            except ValueError:
-                raise ValueError("Invalid data size literal: '{}'".format(value))
+            except ValueError as exc:
+                raise ValueError("Invalid data size literal: '{}'".format(value)) from exc
             suffix = groups[1]
             if suffix == "":
                 suffix = "b"

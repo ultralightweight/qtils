@@ -162,13 +162,15 @@ class qdict(dict):
             True
             >>> isinstance(q.b.e[0].g,qdict)
             True
-            >>> l = [d, d]
+            >>> l = [d, None, d]
             >>> q = qdict.convert(l)
             >>> isinstance(q,list)
             True
-            >>> isinstance(q[1], qdict)
+            >>> isinstance(q[0], qdict)
             True
-            
+            >>> q[1] is None
+            True
+
         """
         if source is None:
             return None
@@ -435,7 +437,7 @@ class qdict(dict):
                 return self._update_recursively_add_keys(other, convert)
             return self._update_recursively_fix_keys(other, convert)
         if add_keys:
-            super(qdict, self).update(other)
+            super().update(other)
             return self
         for key in self:
             self[key] = other.get(key, self[key])
