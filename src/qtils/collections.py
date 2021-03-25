@@ -162,9 +162,18 @@ class qdict(dict):
             True
             >>> isinstance(q.b.e[0].g,qdict)
             True
-
-
+            >>> l = [d, d]
+            >>> q = qdict.convert(l)
+            >>> isinstance(q,list)
+            True
+            >>> isinstance(q[1], qdict)
+            True
+            
         """
+        if source is None:
+            return None
+        if isinstance(source, list):
+            return [ qdict.convert(i) for i in source ]
         self = cls(source)
         for key, value in self.items():
             if isinstance(value, dict) and not isinstance(value, qdict):
