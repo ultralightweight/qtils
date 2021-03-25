@@ -116,7 +116,12 @@ class NA(metaclass=_NAMeta):  # pylint: disable=too-few-public-methods
         True
         >>> NA is NA()
         True
-
+        >>> bool(NA)
+        False
+        >>> NA == False
+        False
+        >>> NA == True
+        False
 
         Usage example:
 
