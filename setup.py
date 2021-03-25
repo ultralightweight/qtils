@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------------------
 
 NAME = "qtils"
-VERSION = "0.10.3"
+VERSION = "0.10.4"
 DESCRIPTION = """Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Python coding even sweeter."""
 AUTHOR = "Daniel Kovacs <@neonihil>"
 AUTHOR_EMAIL = "mondomhogynincsen@gmail.com"
@@ -27,7 +27,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries",
 ]
-LICENCE="License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"
+LICENCE="LGPLv3"
 
 
 # ---------------------------------------------------------------------------------------
