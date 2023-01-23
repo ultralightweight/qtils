@@ -22,12 +22,12 @@ KEYWORDS = []
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries",
 ]
-LICENCE="LGPLv3"
+LICENCE="MIT License"
 
 
 # ---------------------------------------------------------------------------------------

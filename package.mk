@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
-# description: Package Specific Makefile
-# licence: LGPL3 <https://opensource.org/licenses/GPL3>
 # author: Daniel Kovacs <mondomhogynincsen@gmail.com>
+# description: Package Specific Makefile
+# licence: MIT <https://opensource.org/licenses/MIT>
 # version: 0.1
 # -----------------------------------------------------------------------------
 
