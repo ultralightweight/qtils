@@ -10,5 +10,5 @@
 # -----------------------------------------------------------------------------
 
 export PACKAGE_NAME=qtils
-export PACKAGE_VERSION=0.11.0
+export PACKAGE_VERSION=1.0.0
 

@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------------------
 
 NAME = "qtils"
-VERSION = "0.11.0"
+VERSION = "1.0.0"
 DESCRIPTION = """Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Python coding even sweeter."""
 AUTHOR = "Daniel Kovacs <@neonihil>"
 AUTHOR_EMAIL = "mondomhogynincsen@gmail.com"
