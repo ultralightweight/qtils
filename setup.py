@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # package: qtils
-# licence: MIT <https://opensource.org/licenses/MIT>
+# license: MIT <https://opensource.org/licenses/MIT>
 # author: Daniel Kovacs <mondomhogynincsen@gmail.com>
 # file: qtils/setup.py
 # file-version: 2.2.1
@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------------------
 
 NAME = "qtils"
-VERSION = "0.11.0"
+VERSION = "1.0.0"
 DESCRIPTION = """Qtils - pronounces as `cuteels` - is a syntactic sugar library to make sweet Python coding even sweeter."""
 AUTHOR = "Daniel Kovacs <@neonihil>"
 AUTHOR_EMAIL = "mondomhogynincsen@gmail.com"
@@ -22,12 +22,12 @@ KEYWORDS = []
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries",
 ]
-LICENCE="LGPLv3"
+LICENCE="MIT License"
 
 
 # ---------------------------------------------------------------------------------------

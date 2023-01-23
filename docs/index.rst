@@ -16,7 +16,7 @@
 
 .. _index:
 
-Welcome to Qtils 0.11.0 documentation!
+Welcome to Qtils 1.0.0 documentation!
 =======================================
 
 .. image:: _static/qtils-logo.png

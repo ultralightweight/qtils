@@ -1,6 +1,6 @@
 # encoding: utf-8
 # author: Daniel Kovacs <mondomhogynincsen@gmail.com>
-# licence: MIT <https://opensource.org/licenses/MIT>
+# license: MIT <https://opensource.org/licenses/MIT>
 # file: shell.py
 # purpose: interactive demo
 # version: 1.0
