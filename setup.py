@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # package: qtils
-# licence: MIT <https://opensource.org/licenses/MIT>
+# license: MIT <https://opensource.org/licenses/MIT>
 # author: Daniel Kovacs <mondomhogynincsen@gmail.com>
 # file: qtils/setup.py
 # file-version: 2.2.1

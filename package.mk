@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # author: Daniel Kovacs <mondomhogynincsen@gmail.com>
 # description: Package Specific Makefile
-# licence: MIT <https://opensource.org/licenses/MIT>
+# license: MIT <https://opensource.org/licenses/MIT>
 # version: 0.1
 # -----------------------------------------------------------------------------
 

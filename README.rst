@@ -274,10 +274,10 @@ Pull requests are always welcome! Please see the `Developer's Guide <https://qti
 
 
 ========
-Licence
+License
 ========
 
-This library is available under `GNU Lesser General Public Licence v3 <https://www.gnu.org/licenses/lgpl>`_.
+This library is available under `MIT License <https://www.gnu.org/licenses/MIT>`_.
 
 
 

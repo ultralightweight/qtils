@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # description: General Python Makefile
 # author: Daniel Kovacs <mondomhogynincsen@gmail.com>
-# licence: MIT <https://opensource.org/licenses/MIT>
+# license: MIT <https://opensource.org/licenses/MIT>
 # version: 3.3
 # supported: virtualenv, pytest
 # -----------------------------------------------------------------------------

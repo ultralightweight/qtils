@@ -2,7 +2,7 @@
 # package: qtils
 # author: Daniel Kovacs <github.com/neonihil>
 # file-version: 1.0
-# licence: MIT <https://opensource.org/licenses/MIT>
+# license: MIT <https://opensource.org/licenses/MIT>
 # -------------------------------------------------------------------------------
 # This file is part of Ulra Light Weight Qtils.
 #
